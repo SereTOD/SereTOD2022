@@ -13,3 +13,11 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 • Aug 31, 2022 Evaluation results announced  
 • Sept 07, 2022 Workshop paper due  
 • Oct 09, 2022 Notification of paper acceptance  
+
+# Important Link
+
+
+# Rules
+
+# Contact
+
