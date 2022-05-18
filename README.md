@@ -6,3 +6,11 @@ task-related knowledge base (KB) using the dialog states, decide actions and gen
 Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforced Task-Oriented Dialog Systems (SereTOD)", aiming to benchmark semi-supervised task-oriented dialog systems, built for automated customer-service for mobile operators. The task consists of two tracks: information extraction from dialog transcripts (Track 1) and semi-supervised taskoriented dialog systems (Track 2).
 
 # Timeline
+• Nov 20, 2021 Registration opening for shared task
+• Dec 1, 2021 Registration deadline for shared task
+• Dec 1, 2021 Training data release
+• Feb 20, 2022 Evaluation data release
+• Feb 27, 2022 Entry submission deadline
+• Mar 7, 2022 Evaluation results announced
+• Mar 10, 2022 Workshop paper due
+• Apr 5, 2022 Notification of paper acceptance
