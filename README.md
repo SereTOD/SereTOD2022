@@ -15,7 +15,7 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 • Oct 09, 2022 Notification of paper acceptance  
 
 # Important Link
-• Track Proposal    
+• [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)    
 • Task 1 Details  
 • Task 2 Details  
 
