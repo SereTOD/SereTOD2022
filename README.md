@@ -18,6 +18,11 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 
 
 # Rules
+The participating teams can choose to participate in Track 1 independently, and the scores will be ranked according to the performance of information extraction.  
+When teams choose to participate in Track 2, they can use the Track 1 system provided by the organizing committee or developed by themselves. The ranking is based on the performance of both objective and manual evaluation.  
+The challenge website: http://seretod.org/Challenge.html. Teams can Download and fill in the application form and send it to the designated email address: seretod2022@gmail.com.  
+The organizing committee will review the qualification of the participating teams. Successful teams will sign the Challenge Data Usage Agreement and be eligible to participate in the challenge.  
+Download channels for data will be provided to approved individuals or teams.  
 
 # Contact
 
