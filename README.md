@@ -15,7 +15,9 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 • Oct 09, 2022 Notification of paper acceptance  
 
 # Important Link
-
+• Track Proposal    
+• Task 1 Details  
+• Task 2 Details  
 
 # Rules
 • The participating teams can choose to participate in Track 1 independently, and the scores will be ranked according to the performance of information extraction.    
