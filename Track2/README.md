@@ -1,5 +1,5 @@
 # SereTOD Track2: Task-Oriented Dialog Systems
-This repository contains the data, scripts and baseline codes for SereTOD Track 2.
+This repository contains the data, scripts and baseline codes for SereTOD Track2.
 
 Most existing Task-Oriented Dialogue (TOD) systems require large amounts of annotations of dialog states and dialog acts (if used), which are time-consuming and labor-intensive.
 Track 2 examines the task of training a TOD system over the mix of labeled and unlabeled dialog transcripts.
