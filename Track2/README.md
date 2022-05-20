@@ -22,9 +22,11 @@ Track 2 examines the task of training a TOD system over the mix of labeled and u
 • Oct 09, 2022 Notification of paper acceptance  
 
 # Task Definition
-For every labeled dialog, the annotations contain user information (such as user’s data package plan, payment records and so on), which is needed for the customer-service agent to complete the whole dialog session. This task has two features about its knowledge base, which are different from those in other TOD tasks:
-1. The user information about each individual user is the basic knowledge to complete the dialog, which is refereed to as the local knowledge base in Track 1;
-2. No global knowledge base is used.
+For every labeled dialog, the annotations contain user information (such as user’s data package plan, payment records and so on), which is needed for the customer-service agent to complete the whole dialog session. 
+
+This task has two features about its knowledge base, which are different from those in other TOD tasks:
+* The user information about each individual user is the basic knowledge to complete the dialog, which is refereed to as the local knowledge base in Track 1;
+* No global knowledge base is used.
 The teams are encouraged to utilize the unlabeled dialogs provided in the MCSD dataset
 # Evaluation
 In order to measure the performance of TOD systems, the evaluation data are additionally labeled with user goals, in addition to the labeled user information. User goal means the main purpose of the user engaged in a dialogue, according to which user will talk to the system. User goals over the evaluation data are used by the organizers to calculate the metric, and
