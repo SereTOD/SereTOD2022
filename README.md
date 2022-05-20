@@ -16,7 +16,7 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 
 # Important Link
 • [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)    
-• [Track 1 Details](Track2/)  
+• [Track 1 Details](Track1/)  
 • [Track 2 Details](Track2/)  
 
 # Rules
