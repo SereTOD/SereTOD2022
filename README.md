@@ -16,8 +16,8 @@ Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforc
 
 # Important Link
 • [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)    
-• Task 1 Details  
-• Task 2 Details  
+• Track 1 Details  
+• [Track 2 Details](Track2/)  
 
 # Rules
 • The participating teams can choose to participate in Track 1 independently, and the scores will be ranked according to the performance of information extraction.    
