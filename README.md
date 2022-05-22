@@ -29,4 +29,5 @@ Organizers: Zhijian Ou, Junlan Feng, Juanzi Li, Yakun Li, Hong Liu, Hao Peng, Yi
 • Download channels for data will be provided to approved individuals or teams.  
 
 # Contact
-
+For specific enquiries about Challenge (Track1 or Track2)  
+Please feel free to contact: SereTod2022 (at) gmail (dot) com
