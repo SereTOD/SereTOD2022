@@ -1,3 +1,8 @@
 # SereTOD Track1: Information Extraction from dialog transcripts
-This repository contains the data, scripts and baseline codes for SereTOD Track1.
-
+This repository contains the data, scripts and baseline codes for SereTOD Track1. 
+# Task    
+we define two sub-tasks.  
+1) Entity extraction. This sub-task is to extract entities with their corresponding concepts, which are mentioned in a dialog session. In real-life dialogs, an entity
+may be mentioned in different surface forms, which need to be extracted. For example, “50元流量包” (50 Yuan data package plan) may have a number of different mentions in a multi-turn dialog: “50元那个业务” (50 Chinese Yuan plan), “那个流量包” (that package plan), “刚才那个业务” (that plan). Thus, entity extraction for the MCSD dataset is more challenging than classic named entity recognition tasks (e.g., extracting person names), due to the informal, verbalized and loose form of the customer-service dialogs.  
+2) Slot filling. This sub-task is to extract slot values for entity slots (i.e., attributes). It is formulated as a sequence labeling task for the pre-defined slots in
+the schema. For example, in sentence “10GB套餐业务每月的费用是50块钱。” (The price for 10GB data package plan is 50 Chinese Yuan per month), “每月的费用是50块钱” (50 Chinese Yuan per month) will be labeled as plan price slot. An entity may have several mentions in a dialog, and the slots and values for an entity may scatter in multi-turn dialogs. Thus, the task requires entity resolution and assigning slot-value pairs to the corresponding entity. After entity extraction and slot filling, a local knowledge base will be constructed with all extracted entities with their attributes for each dialog.  
