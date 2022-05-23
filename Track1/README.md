@@ -10,3 +10,4 @@ the schema. For example, in sentence “10GB套餐业务每月的费用是50块�
 Given a dialog in testing, the trained information extraction model is used to extract entities together with slot values. We will evaluate and rank the submitted models by the extraction performance on test set. The evaluation metrics are Precision, Recall and F1.  
 1) As for entity extraction, the metrics are at entity level: an entity is extracted correctly if and only if the mention span of the entity is labeled as the corresponding entity type (i.e., concept).  
 2) As for slot filling, the metrics are at triple level: an entity-slot-value triple is extracted correctly if and only if 1) the mention span of the slot value is labeled as the corresponding slot type. 2) the slot-value pair is correctly assigned to the corresponding entity.  
+# Data  
