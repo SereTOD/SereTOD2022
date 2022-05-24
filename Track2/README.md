@@ -22,15 +22,13 @@ Track 2 examines the task of training a TOD system over the mix of labeled and u
 • Oct 09, 2022 Notification of paper acceptance  
 
 # Task Definition
-For every labeled dialog, the annotations contain user information (such as user’s data package plan, payment records and so on), which is needed for the customer-service agent to complete the whole dialog session. 
+The main task for the dialog system is to predict the system intent and generate system response given the user intent, user utterance and user information (such as user’s data package plan, payment records and so on). There are both labeled and unlabeled data in the MCSD dataset. In each labeled dialog turn, the user intent, system intent and user information are given, which is needed for the dialog system to complete the dialog, while in unlabeled dialog turn, those are missing. The teams are encouraged to utilize both the labeled and the unlabeled dialogs to build dialog systems.
 
 This task has two features about its knowledge base, which are different from those in other TOD tasks:
 * The user information about each individual user is the basic knowledge to complete the dialog, which is refereed to as the local knowledge base in Track 1;
 * No global knowledge base is used.
-The teams are encouraged to utilize the unlabeled dialogs provided in the MCSD dataset
 # Evaluation
-In order to measure the performance of TOD systems, the evaluation data are additionally labeled with user goals, in addition to the labeled user information. User goal means the main purpose of the user engaged in a dialogue, according to which user will talk to the system. User goals over the evaluation data are used by the organizers to calculate the metric, and
-not provided to the teams. Note that we do not need to label user goals for training data. The main metrics are Success rate and BLEU score. Success rate is the percentage of generated dialogs that achieve user goals.
+In order to measure the performance of TOD systems, the evaluation data are additionally labeled with user goals, in addition to the labeled user information. User goal means the main purpose of the user engaged in a dialogue, according to which user will talk to the system. User goals over the evaluation data are used by the organizers to calculate the metric, and not provided to the teams. Note that we do not need to label user goals for training data. The main metrics are Success rate and BLEU score. Success rate is the percentage of generated dialogs that achieve user goals.
 BLEU score evaluates the fluency of generated responses. A combined score is computed as BLEU+Success. 
 
 The combined scores will be the main ranking basis
@@ -52,5 +50,3 @@ Each participating team will submit **up to 5** system outputs for the test inst
 • The challenge website: http://seretod.org/Challenge.html. Teams can Download and fill in the application form and send it to the designated email address: seretod2022@gmail.com.  
 • The organizing committee will review the qualification of the participating teams. Successful teams will sign the Challenge Data Usage Agreement and be eligible to participate in the challenge.  
 • Download channels for data will be provided to approved individuals or teams.  
-# Contact
-
