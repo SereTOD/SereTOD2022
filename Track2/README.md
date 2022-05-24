@@ -7,9 +7,9 @@ Track 2 examines the task of training a TOD system over the mix of labeled and u
 # Important Link
 
 * [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)
-* Challenge Registration
-* Data Details
-* Baseline Details
+* [Challenge Registration](http://seretod.org/Challenge.html)
+* [Data Details]((../data/README.md))
+* [Baseline Details](./baseline/README.md)
 
 # Timeline
 • Apr 29, 2022 Registration opening for shared task  
