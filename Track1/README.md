@@ -1,7 +1,7 @@
 # SereTOD Track1: Information Extraction from dialog transcripts
 This repository contains the task, evaluation, data and baseline codes for SereTOD Track1. 
 # Task    
-In a task-oriented dialog system, after dialog state tracking, the system needs to query a task-related knowledge base. Given a mix of labeled and unlabeled dialog transcripts, Track 1 examines the task of training information extraction models to construct the “local” knowledge base for each dialog, which will be needed in training TOD systems in Track 2. Therefore, we define two sub-tasks.  
+In a task-oriented dialog system, after dialog state tracking, the system needs to query a task-related knowledge base. Given a mix of labeled and unlabeled dialog transcripts, Track 1 examines the task of training information extraction models to construct the “local” knowledge base for each dialog, which will be needed in training TOD systems in Track 2. Therefore, we define two sub-tasks:  
 1) Entity extraction. This sub-task is to extract entities with their corresponding concepts. In real-life dialogs, an entity
 may be mentioned in different surface forms, which need to be extracted. For example, “50元流量包” may have a number of different mentions in a multi-turn dialog: “50元那个业务” , “那个流量包” . Thus, entity extraction for the MCSD dataset is more challenging than classic NER tasks, due to the informal, verbalized and loose form of the customer-service dialogs.  
 2) Slot filling. This sub-task is to extract slot values for entity slots (i.e., attributes). It is formulated as a sequence labeling task for the pre-defined slots in
