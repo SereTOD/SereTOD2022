@@ -1,8 +1,9 @@
 # SereTOD Track2: Task-Oriented Dialog Systems
 This repository contains the data, scripts and baseline codes for SereTOD Track2.
 
-Most existing Task-Oriented Dialogue (TOD) systems require large amounts of annotations of dialog states and dialog acts (if used), which are time-consuming and labor-intensive.
-Track 2 examines the task of training a TOD system over the mix of labeled and unlabeled dialog transcripts.
+Most existing TOD systems require not only large amounts of annotations of dialog states and dialog acts (if used), but also a global knowledge base (KB) covering all public knowledge and all personal information in the field, which are both difficult to obtain at the research stage. Compared with previous work, the task in Track2 has two main characteristics:
+* There's no global KB but only a local KB for each dialog, representing the unique information for each user, e.g., the user's package plan and remaining phone charges.
+*  Only part of the data is annotated with intents and local KB. The teams are encouraged to utilize a mix of labeled and unlabeled dialogs to build a TOD system.
 
 # Important Link
 
@@ -11,42 +12,32 @@ Track 2 examines the task of training a TOD system over the mix of labeled and u
 * [Data Details]((../data/README.md))
 * [Baseline Details](./baseline/README.md)
 
-# Timeline
-• Apr 29, 2022 Registration opening for shared task  
-• May 31, 2022 Registration deadline for shared task  
-• Jun 01, 2022 Training data release  
-• Aug 14, 2022 Evaluation data release  
-• Aug 21, 2022 Entry submission deadline  
-• Aug 31, 2022 Evaluation results announced  
-• Sept 07, 2022 Workshop paper due  
-• Oct 09, 2022 Notification of paper acceptance  
+
 
 # Task Definition
-The main task for the dialog system is to predict the system intent and generate system response given the user intent, user utterance and user information (such as user’s data package plan, payment records and so on). There are both labeled and unlabeled data in the MCSD dataset. In each labeled dialog turn, the user intent, system intent and user information are given, which is needed for the dialog system to complete the dialog, while in unlabeled dialog turn, those are missing. The teams are encouraged to utilize both the labeled and the unlabeled dialogs to build dialog systems.
-
-This task has two features about its knowledge base, which are different from those in other TOD tasks:
-* The user information about each individual user is the basic knowledge to complete the dialog, which is refereed to as the local knowledge base in Track 1;
-* No global knowledge base is used.
+The basic task for the TOD system is, for each dialog turn, given the dialog history, the user utterance and the local KB, to predict the user intent, query the local KB and generate an appropriate response according to the queried information. 
+For every labeled dialog, the annotations consist of the user intents, system intents and a local KB obtained by integrating the annotations of entities and triples in Track1. 
+For every unlabeled dialog, those annotations are missing. However, the local KBs of unlabeled dialogs can be constructed by applying the information extraction model in Track1 to extract entities and triples. And the missing intent annotations can also be supplemented by semi-supervised methods such as pseudo labeling.
 # Evaluation
-In order to measure the performance of TOD systems, the evaluation data are additionally labeled with user goals, in addition to the labeled user information. User goal means the main purpose of the user engaged in a dialogue, according to which user will talk to the system. User goals over the evaluation data are used by the organizers to calculate the metric, and not provided to the teams. Note that we do not need to label user goals for training data. The main metrics are Success rate and BLEU score. Success rate is the percentage of generated dialogs that achieve user goals.
-BLEU score evaluates the fluency of generated responses. A combined score is computed as BLEU+Success. 
+In order to measure the performance of TOD systems, both automatic evaluation and human evaluation will be conducted. 
+For automatic evaluation, metrics include Precision/Recall/F1 score, Success rate and BLEU score.  P/R/F1 are calculated for both predicted user intents and system intents.
+Success rate is the percentage of generated dialogs that achieve user goals. BLEU score evaluates the fluency of generated responses.
 
-The combined scores will be the main ranking basis
-on leaderboard. We will provide the following scripts and tools for the participants: 1) A baseline system; 2) Evaluation scripts to calculate the metrics.
+We will also perform human evaluation for different TOD systems, where the real users interact with those systems according to randomly given goals. For each dialog, the user will score the system in the following 4 aspects:
+* Success. This metric measures if the system has successfully fulfilled the user's goal
+* Understanding. This metric measures whether the system’s response shows that the system is able to understand the goal and intent of the user
+* Coherency. This metric measures whether the system’s response is logically coherent with the dialogue context
+* The metric measures the fluency of the system’s response
+
+There are only 3 different scores for each aspect, 0, 1 and 2, respectively indicating three degrees: not at all, partially and completely.
+
+The average scores from automatic evaluation and human evaluation will be the main ranking basis on leaderboard.
+We will provide the following scripts and tools for the participants: 1) A baseline system; 2) Evaluation scripts to calculate the corpus-based metrics.
 # Data
-In this challenge task, participants will use [SereTOD dataset](../data/) to build a TOD system. 
+In this challenge task, participants will use [SereTOD dataset](../data/) to build a TOD system. Note that there are only annotations of intents, entities and triples in the dataset, so it's neccessary to extract the local KB and user goal for each dialogue. The extraction script can be seen in [baseline](./baseline/).
 
 In the test phase, participants will be evaluated on the results generated by their models for the hidden test set.
 The test set will be on the same domains, entities and locales as the training set.
 
-Data and system output format details can be found from [data description](../data/README.md).
 # Participation
-Each participating team will submit **up to 5** system outputs for the test instances in logs.json.
-
-
-# Rules
-• The participating teams can choose to participate in Track 1 independently, and the scores will be ranked according to the performance of information extraction.    
-• When teams choose to participate in Track 2, they can use the Track 1 system provided by the organizing committee or developed by themselves. The ranking is based on the performance of both objective and manual evaluation.    
-• The challenge website: http://seretod.org/Challenge.html. Teams can Download and fill in the application form and send it to the designated email address: seretod2022@gmail.com.  
-• The organizing committee will review the qualification of the participating teams. Successful teams will sign the Challenge Data Usage Agreement and be eligible to participate in the challenge.  
-• Download channels for data will be provided to approved individuals or teams.  
+Each participating team will submit **up to 5** system outputs for the test instances, which will be released at Aug 14, 2022 according to the Timeline.
