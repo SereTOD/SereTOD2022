@@ -15,12 +15,13 @@ special_tokens=['[EOS_L]', '[EOS_U]', '[EOS_E]', '[EOS_UI]', '[EOS_K]', '[EOS_SI
 
 def convert_to_sequences(data, dial_ids=None):
     sequences=[]
-    for dial_id, dial in data.items():
+    for dial in data:
+        dial_id=dial['id']
         if dial_ids is not None and dial_id not in dial_ids:
             continue
         EN_list={}
         KB=dial['KB']
-        for turn in dial['log']:
+        for turn in dial['content']:
             pv_EN_list=copy.deepcopy(EN_list)
             ui=turn['用户意图']
             EN=set([])
@@ -113,14 +114,15 @@ def read_data(tokenizer):
     encoded_path=os.path.join(cfg.data_dir, 'encoded_data.json')
     if not os.path.exists(encoded_path):
         data=json.load(open(cfg.data_path, 'r', encoding='utf-8'))
-        dial_ids=list(data.keys())
+        dial_ids=[dial['id'] for dial in data]
         random.shuffle(dial_ids)
         piece=len(dial_ids)//10
         train_ids, dev_ids, test_ids=dial_ids[:8*piece], dial_ids[8*piece:9*piece], dial_ids[9*piece:]
         train_seqs=convert_to_sequences(data, train_ids)
         dev_seqs=convert_to_sequences(data, dev_ids)
         test_seqs=convert_to_sequences(data, test_ids)
-        logging.info('Train:{}, dev:{}, test:{}'.format(len(train_seqs), len(dev_seqs), len(test_seqs)))
+        logging.info('Dialogs -- Train:{}, dev:{}, test:{}'.format(len(train_ids), len(dev_ids), len(test_ids)))
+        logging.info('Sequences -- Train:{}, dev:{}, test:{}'.format(len(train_seqs), len(dev_seqs), len(test_seqs)))
         seq_data={
             'train':train_seqs,
             'dev':dev_seqs,
@@ -151,9 +153,9 @@ def extract_test_dial(data='test'):
     dial_ids=json.load(open(os.path.join(cfg.data_dir, 'dial_ids.json'), 'r', encoding='utf-8'))
     all_data=json.load(open(cfg.data_path, 'r', encoding='utf-8'))
     test_data={}
-    for key, dial in all_data.items():
-        if key in dial_ids[data]:
-            test_data[key]=dial
+    for dial in all_data:
+        if dial['id'] in dial_ids[data]:
+            test_data[dial['id']]=dial['content']
     return test_data
 
 def train_collate_fn(batch):
