@@ -1,9 +1,60 @@
+# Copyright 2022 Tsinghua SPMI Lab, Author: Hong Liu
+# This script preprocesses the labeled data for Track2 in SereTOD Challenge
+
 import json
 import random
 import copy
 import re
 def data_statistics():
-    data=json.load(open('data/Raw_data.json', 'r', encoding='utf-8'))
+    data=json.load(open('Track2_data/Raw_data.json', 'r', encoding='utf-8'))
+    c1, c2 = 0, 0
+    c3=0
+    dials1, dials2, dials3 = [], [], []
+    print(len(data))
+    for dial in data:
+        user_first=0
+        service_first=0
+        confusion=0
+        speakers=set()
+        for turn in dial['content']:
+            temp=list(turn.keys())
+            speakers.add(temp[0])
+            speakers.add(temp[1])
+            if '客服意图' in temp and '用户意图' in temp:
+                if '意图混乱' in temp or '意图混乱' in turn['用户意图'] or '意图混乱' in turn['客服意图']:
+                    confusion=1
+                    continue
+                if temp.index('客服意图')<temp.index('用户意图'):#客服在前
+                    c1+=1
+                    service_first=1
+                else:
+                    c2+=1
+                    user_first=1
+            else:
+                c3+=1
+                confusion=1
+        if confusion:
+            dials3.append(dial)
+        elif user_first: # 对话中至少有一轮用户在前
+            if len(speakers)==2 and not service_first:
+                dials2.append(dial)
+            else:
+                dials3.append(dial)
+        elif service_first: # 对话中至少有一轮客服在前
+            if len(speakers)==2 and not user_first:
+                dials1.append(dial)
+            else:
+                dials3.append(dial)
+        else:
+            dials3.append(dial)
+    print('轮次——客服在前:', c1, '用户在前:', c2, '其他情况:', c3)
+    print('对话——客服在前:', len(dials1), '用户在前:', len(dials2), '其他情况:', len(dials3))
+    json.dump(dials1, open('Track2_data/service_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials2, open('Track2_data/user_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials3, open('Track2_data/others.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+
+def data_statistics0():
+    data=json.load(open('Track2_data/Raw_data.json', 'r', encoding='utf-8'))
     c1, c2 = 0, 0
     c3=0
     dials1, dials2, dials3 = [], [], []
@@ -45,10 +96,10 @@ def data_statistics():
     print('轮次——客服在前:', c1, '用户在前:', c2, '其他情况:', c3)
     print('对话——客服在前:', len(dials1), '用户在前:', len(dials2), '其他情况:', len(dials3))
     print('标准对话数:', len(dials_std))
-    json.dump(dials1, open('data/part1.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials2, open('data/part2.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials3, open('data/part3.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials_std, open('data/std_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials1, open('Track2_data/part1.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials2, open('Track2_data/part2.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials3, open('Track2_data/part3.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials_std, open('Track2_data/std_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def clear_data(data):
     dial_count, turn_count=0,0
@@ -107,18 +158,20 @@ def clear_data(data):
     return new_data, remaining_data
 
 def restructure():
-    data=json.load(open('data/std_data.json', 'r', encoding='utf-8'))
-    data1=json.load(open('data/part2.json', 'r', encoding='utf-8'))
-    data, _=clear_data(data)
-    data1,_=clear_data(data1)
+    # restructure the data so that user speaks first at all turns
+    data=json.load(open('Track2_data/service_first.json', 'r', encoding='utf-8'))
+    data1=json.load(open('Track2_data/user_first.json', 'r', encoding='utf-8'))
+    #data, _=clear_data(data)
+    #data1,_=clear_data(data1)
     new_data=[]
     missing_pos=0
     for dial in data:
-        service, user=list(dial[0].keys())[:2]
+        service, user=list(dial['content'][0].keys())[:2]
+        new_item={'id':dial['id']}
         new_dial=[]
-        for n in range(len(dial)-1):
-            turn1=dial[n]
-            turn2=dial[n+1]
+        for n in range(len(dial['content'])-1):
+            turn1=dial['content'][n]
+            turn2=dial['content'][n+1]
             new_turn={}
             new_turn['用户']=turn1[user].replace('[UNK]', '')
             new_turn['客服']=turn2[service].replace('[UNK]', '')
@@ -132,6 +185,8 @@ def restructure():
             if 'info' in turn1:
                 for ent in turn1['info']['ents']:
                     pos=[]
+                    if 'pos' not in ent:
+                        continue
                     for p in ent['pos']:
                         if p==[]:
                             continue
@@ -143,13 +198,18 @@ def restructure():
                         new_ent=copy.deepcopy(ent)
                         new_ent['pos']=pos
                         new_turn['info']['ents'].append(new_ent)
-
-                for triple in turn1['info']['triples']:
-                    if triple['value'] in turn1[user]:
-                        new_turn['info']['triples'].append(triple)
+                
+                if 'triples' in turn1['info']:
+                    for triple in turn1['info']['triples']:
+                        if 'value' not in triple:
+                            continue
+                        if triple['value'] in turn1[user]:
+                            new_turn['info']['triples'].append(triple)
             if 'info' in turn2:
                 for ent in turn2['info']['ents']:
                     pos=[]
+                    if 'pos' not in ent:
+                        continue
                     for p in ent['pos']:
                         if p==[]:
                             missing_pos+=1
@@ -162,42 +222,48 @@ def restructure():
                         new_ent=copy.deepcopy(ent)
                         new_ent['pos']=pos
                         new_turn['info']['ents'].append(new_ent)
-
-                for triple in turn2['info']['triples']:
-                    if triple['value'] in turn2[service]:
-                        new_turn['info']['triples'].append(triple)
+                if 'triples' in turn2['info']:
+                    for triple in turn2['info']['triples']:
+                        if 'value' not in triple:
+                            continue
+                        if triple['value'] in turn2[service]:
+                            new_turn['info']['triples'].append(triple)
             new_dial.append(new_turn)
-        new_data.append(new_dial)
+        new_item['content']=new_dial
+        new_data.append(new_item)
     
     for dial in data1:
-        user, service=list(dial[0].keys())[:2]
+        user, service=list(dial['content'][0].keys())[:2]
+        new_item={'id':dial['id']}
         new_dial=[]
-        for turn in dial:
+        for turn in dial['content']:
             turn['用户']=turn.pop(user).replace('[UNK]', '')
             turn['客服']=turn.pop(service).replace('[UNK]', '')
             new_dial.append(turn)
-        new_data.append(new_dial)
+        new_item['content']=new_dial
+        new_data.append(new_item)
     print('Total restructured data:', len(new_data))
-    json.dump(new_data, open('data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(new_data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def extract_local_KB():
-    data=json.load(open('data/restructured_data.json', 'r', encoding='utf-8'))
-    new_data={}
+    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
+    new_data=[]
     count=0
     turn_num=0
     query_num=0
     query_dial=0
     for n, dial in enumerate(data):
-        new_data[n]={
+        entry={
+            'id':dial['id'],
             'KB':{},
-            'goal':{}
+            'goal':{},
+            'content':dial['content']
             }
-        new_data[n]['log']=dial
         KB={}
         goal={}
         with_query=0
         # extract db
-        for turn in dial:
+        for turn in dial['content']:
             turn_num+=1
             turn['用户意图']=turn['用户意图'].replace('（', '(').replace('）',')').replace('，',',')
             turn['客服意图']=turn['客服意图'].replace('（', '(').replace('）',')').replace('，',',')
@@ -206,6 +272,8 @@ def extract_local_KB():
                 with_query=1
             if 'info' in turn:
                 for ent in turn['info']['ents']:
+                    if 'id' not in ent:
+                        continue
                     if ent['name'] in turn['用户']:#只有用户提到的才加到goal中
                         if ent['id'] not in goal:
                             goal[ent['id']]={'type':ent['type']}
@@ -217,11 +285,13 @@ def extract_local_KB():
                     if ent['id'] not in KB:
                         KB[ent['id']]={
                             'name':set([ent['name'].lower()]),
-                            'type':ent['type'].lower()
+                            'type':ent.get('type', ' ').lower()
                         }
                     else:# we accumulate all the names for one entity
                         KB[ent['id']]['name'].add(ent['name'].lower())
                 for triple in turn['info']['triples']:
+                    if 'ent-id' not in triple or 'prop' not in triple:
+                        continue
                     if triple['value'] in turn['用户']:
                         if triple['ent-id'].startswith('ent') and triple['ent-id'] not in goal:
                             goal[triple['ent-id']]={'name':set([triple['ent-name']])}
@@ -297,17 +367,19 @@ def extract_local_KB():
                 for key, value in ent.items():
                     if isinstance(value, set):
                         goal[id][key]=','.join(list(value))
-        new_data[n]['KB']=KB
-        new_data[n]['goal']=goal
+        entry['KB']=KB
+        entry['goal']=goal
+        new_data.append(entry)
     print('Triple appeare before entity:', count)
     print('Total turns:', turn_num, 'query turns:', query_num)
     print('Total dials:', len(new_data), 'query dials:', query_dial)
-    json.dump(new_data, open('data/processed_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(new_data, open('Track2_data/processed_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
-def intent_norm():
-    data=json.load(open('data/processed_data.json', 'r', encoding='utf-8'))
-    for dial_id, dial in data.items():
-        for turn in dial['log']:
+def normalize():
+    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
+    count=0
+    for dial in data:
+        for turn in dial['content']:
             turn['用户意图']=turn['用户意图'].replace(',ent', ')(ent')
             turn['用户意图']=turn['用户意图'].replace('))', ')')
             turn['用户意图']=turn['用户意图'].replace('),(', ')(')
@@ -336,17 +408,36 @@ def intent_norm():
                     ui=turn['用户意图']
                     turn['用户意图']=turn['用户意图'].replace(e, ')('.join(e_list))
                     print(ui, turn['用户意图'])
-    json.dump(data, open('data/processed_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-
+            '''
+            if 'info' in turn:
+                if 'ents' in turn['info']:
+                    for ent in turn['info']['ents']:
+                        if 'name' not in ent and 'ent-name' in ent:
+                            ent['name']=ent.pop('ent-name')
+                            count+=1
+                        if 'id' not in ent and 'ent-id' in ent:
+                            ent['id']=ent.pop('ent-id')
+                            count+=1
+                if 'triples' in turn['info']:
+                    for tri in turn['info']['triples']:
+                        if 'ent-name' not in tri and 'name' in tri:
+                            tri['ent-name']=tri.pop('name')
+                            count+=1
+                        if 'ent-id' not in tri and 'id' in tri:
+                            tri['ent-id']=tri.pop('id')
+                            count+=1
+            '''
+    #print('修改实体三元组key个数:',count)
+    json.dump(data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+ 
 
 def add_constraint():
-    data=json.load(open('data/processed_data.json', 'r', encoding='utf-8'))
+    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
     query_num, query_wo_cons, query_cons_in_triple=0, 0, 0
-    inquiry_num, inquiry_wo_cons, inquiry_cons_in_triple=0, 0, 0
     collected_turns=[]
     add_num=0
-    for dial_id, dial in data.items():
-        for turn in dial['log']:
+    for dial in data:
+        for turn in dial['content']:
             collected=False
             ui=turn['用户意图']
             for query_intent in ['求助-查询', '询问', '主动确认']:
@@ -358,6 +449,8 @@ def add_constraint():
                         if 'info' in turn:
                             for tri in turn['info']['triples']:
                                 if tri['value'] in turn['用户']:
+                                    if 'ent-id' not in tri:
+                                        continue
                                     if tri['ent-id'].startswith('ent'):
                                         cons=tri['ent-id']+'-'+tri['prop']
                                     elif tri['ent-id']=='NA':
@@ -374,12 +467,13 @@ def add_constraint():
     #print('查询意图:', query_num, '无约束的查询意图', query_wo_cons, '查询约束存在于三元组标注中', query_cons_in_triple)
     #print('询问意图:', inquiry_num, '无约束的询问意图', inquiry_wo_cons, '询问约束存在于三元组标注中', inquiry_cons_in_triple)
     #print('Collected turns:', len(collected_turns))
-    json.dump(collected_turns, open('data/temp.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    #json.dump(collected_turns, open('Track2_data/temp.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
     print('Add constraints num:', add_num)
-    json.dump(data, open('data/data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 if __name__=='__main__':
     data_statistics()
-    intent_norm()
-    extract_local_KB()
+    restructure()
+    normalize()
     add_constraint()
+    extract_local_KB()

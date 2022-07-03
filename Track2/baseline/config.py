@@ -9,7 +9,7 @@ class _Config:
         self.mode='train'
 
         self.gpt_path='uer/gpt2-chinese-cluecorpussmall'
-        self.data_path='data/data.json'
+        self.data_path='data/processed_data.json'
         self.data_dir='data/'
 
         self.device=0
