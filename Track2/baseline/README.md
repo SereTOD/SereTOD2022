@@ -14,10 +14,10 @@ python preprocess.py
 ```
 This script basically includes the following steps: 
 1. Reconstruct the data so that users speak before the customer service in every turn;
-2. Normalize data;
+2. Normalize the data;
 3. Extract the user goal and local KB for every dialogue
 ## Training
-The data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all training data
+The labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled data
 ```
 bash train.sh $DEVICE
 ```
