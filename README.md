@@ -8,13 +8,13 @@ Organizers: Zhijian Ou, Junlan Feng, Juanzi Li, Yakun Li, Hong Liu, Hao Peng, Yi
 
 # Timeline
 • **Apr 29, 2022** Registration opening for shared task  
-• Jul 01, 2022 Registration deadline for shared task  
-• Jul 01, 2022 Training data release  
-• Aug 14, 2022 Evaluation data release  
-• Aug 21, 2022 Entry submission deadline  
-• Aug 31, 2022 Evaluation results announced  
-• Sept 07, 2022 Workshop paper due  
-• Oct 09, 2022 Notification of paper acceptance  
+• **Jul 01, 2022** Registration deadline for shared task  
+• **Jul 01, 2022** Training data release  
+• **Aug 14, 2022** Evaluation data release  
+• **Aug 21, 2022** Entry submission deadline  
+• **Aug 31, 2022** Evaluation results announced  
+• **Sept 07, 2022** Workshop paper due  
+• **Oct 09, 2022** Notification of paper acceptance  
 
 # Important Link
 • [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)    
