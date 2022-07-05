@@ -1,4 +1,4 @@
-# SereTOD Dataset: Mobile Customer-Service Dialog (MCSD)
+# SereTOD Dataset: Mobile Customer-Service Dialog (MobileCS)
 
 This directory contains the official dataset for [SereTOD Challenge](../README.md).
 The evaluation dataset will be available later.
