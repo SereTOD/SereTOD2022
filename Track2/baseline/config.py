@@ -9,8 +9,8 @@ class _Config:
         self.mode='train'
 
         self.gpt_path='uer/gpt2-chinese-cluecorpussmall'
-        self.data_path='data/processed_data.json'
-        self.data_dir='data/'
+        self.data_path='Track2_data/processed_data.json'
+        self.data_dir='Track2_data/'
 
         self.device=0
         self.batch_size=8
@@ -29,7 +29,7 @@ class _Config:
         if self.mode=='train':
             file_handler = logging.FileHandler('./log/log_{}_{}_sd{}.txt'.format(self.mode, self.exp_name, self.seed))
         else:
-            file_handler = logging.FileHandler('./others.txt')
+            file_handler = logging.FileHandler(os.path.join(self.gpt_path, 'eval_log.txt'))
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
         logging.basicConfig(handlers=[stderr_handler, file_handler])

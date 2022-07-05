@@ -104,9 +104,9 @@ def convert_to_sequences(data, dial_ids=None):
             ui=re.sub(r'ent-[0-9]+-', '', ui)
             ui=re.sub(r'ent--', '', ui)
 
-            sequence=pv_EN_seq+'[EOS_L]'+turn['用户']+'[EOS_U]'\
-                +','.join(list(EN))+'[EOS_E]'+ui+'[EOS_UI]'+','.join(KB_result)+'[EOS_K]'\
-                +si+'[EOS_SI]'+turn['客服']+'[EOS_S]'
+            sequence=pv_EN_seq.lower()+'[EOS_L]'+turn['用户'].lower()+'[EOS_U]'\
+                +','.join(list(EN)).lower()+'[EOS_E]'+ui.lower()+'[EOS_UI]'+','.join(KB_result).lower()+'[EOS_K]'\
+                +si.lower()+'[EOS_SI]'+turn['客服'].lower()+'[EOS_S]'
             sequences.append(sequence)
     return sequences
 
@@ -152,10 +152,10 @@ def read_data(tokenizer):
 def extract_test_dial(data='test'):
     dial_ids=json.load(open(os.path.join(cfg.data_dir, 'dial_ids.json'), 'r', encoding='utf-8'))
     all_data=json.load(open(cfg.data_path, 'r', encoding='utf-8'))
-    test_data={}
+    test_data=[]
     for dial in all_data:
         if dial['id'] in dial_ids[data]:
-            test_data[dial['id']]=dial['content']
+            test_data.append(dial)
     return test_data
 
 def train_collate_fn(batch):
