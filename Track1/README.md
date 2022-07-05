@@ -14,22 +14,19 @@ For entity extraction, the participants need to submit all the predicted mention
 
 The average F1 scores of entity extraction and slot filling will be the ranking basis on leaderboard. We will provide the following scripts and tools for the participants: 1) Baseline models for both sub-tasks; 2) Evaluation scripts to calculate the metrics.
 
-# Data  
-An important feature for our challenge is that we release around 100,000 dialogs (in Chinese), which come from real-world dialog transcripts between real users and
-customer-service staff from China Mobile. We call this dataset as MCSD (mobile customer-service dialog) dataset. To the best of our knowledge, MCSD is not only the largest publicly available multi-domain TOD dataset, but also consists of real-life data (namely collected in real-world scenarios).  
-We provide only 10,000 dialogs are labeled by crowdsourcing, while the remaining 90,000 dialogs are unlabeled. The teams are required to use this mix of labeled and unlabeled data to train information extraction models (Track 1), which could provide a knowledge base for Track 2, and train TOD systems (Track 2), which could work as customer-service bots. We put aside 5,000 dialogs as evaluation data.
+
 
 # Baseline 
 The folder provide a pipeline for extracting entities and their corresponding properties (slots) and values. In general, the pipeline contains 4 components.  
-**Entity Extraction**  
+**1. Entity Extraction**  
 We implement a sequence labeling model to extract entity mentions in dialogue utterances. Using this 
 component, we get entity mentions from utterances.  
-**Entity Coreference**  
+**2. Entity Coreference**  
 After entity extraction, we need to cluster the mentions of the same entity into a single cluster. Therefore, we provide the component to conduct entity coreference resolution.  
-**Slot Filling**  
+**3. Slot Filling**  
 After entity extraction and entity coreference resolution, we extract properties (slots) using
 sequence labeling method.  
-**Entity Slot Alignment**  
+**4. Entity Slot Alignment**  
 After extracting entities and slots, we need to align them (i.e., assign slots to the coresponding entities). 
 The entire procedure of the pipeline is as follows:
 ```
@@ -38,7 +35,7 @@ Entity Extractioin --> Entity Coreference --> Slot Filling --> Entity Slot Align
 The code for each component is placed in the corresponding folder. 
 
 
-## Setup
+### Setup
 First, install all the requirements:
 ```Shell
 pip install -r requirements.txt 
@@ -53,7 +50,7 @@ python get_submissions.py
 ```
 You should place the `data` folder in the `baseline/.`.
 
-## Evaluation and Results
+### Evaluation and Results
 We use micro-F1 as the basic metric. Before evaluation, we run Hungarian Algorithm on the submissions to 
 get best assignments between predicted entities and golden entities. The evaluation script `eval_script.py` is also provided in the repo.  
 We random sample 1,000 instances as the test set and evaluate our baseline on the test set. The results are:
