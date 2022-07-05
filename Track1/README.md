@@ -10,7 +10,9 @@ the schema. For example, in sentence “10GB套餐业务每月的费用是50块�
 Given a dialog in testing, the trained information extraction model is used to extract entities together with slot values. We will evaluate and rank the submitted models by the extraction performance on test set. The evaluation metrics are Precision, Recall and F1.  
 1) For entity extraction, the F1 is calculated at entity mention level: an entity mention is extracted correctly if and only if the mention span of the entity is labeled as the corresponding entity-type (i.e., concept).   
 2) For slot filling, the F1 is calculated at triple level: an entity-slot-value triple is extracted correctly if and only if 1) the mention span of the slot value is labeled as the corresponding slot type. 2) the slot-value pair is correctly assigned to the corresponding entity.  
-For entity extraction, the participants need to submit all the predicted mentions with their types. For slot filling, the participants need to submit the extracted entities with entity resolution. Each extracted entity may contain multiple mentions and is represented as a set of entity-slot-value triples. The performance of slot filling is measured by finding the best match between the extracted entities and the golden labeled entities using the Hungarian Algorithm and calculating the F1.  
+
+For entity extraction, the participants need to submit all the predicted mentions with their types. For slot filling, the participants need to submit the extracted entities with entity resolution. Each extracted entity may contain multiple mentions and is represented as a set of entity-slot-value triples. The performance of slot filling is measured by finding the best match between the extracted entities and the golden labeled entities using the Hungarian Algorithm and calculating the F1.    
+
 The average F1 scores of entity extraction and slot filling will be the ranking basis on leaderboard. We will provide the following scripts and tools for the participants: 1) Baseline models for both sub-tasks; 2) Evaluation scripts to calculate the metrics.
 
 # Data  
