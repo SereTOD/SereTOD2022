@@ -1,9 +1,7 @@
 # SereTOD Motivation 
 Task-oriented dialogue (TOD) systems are designed to assist users to accomplish their goals, and have gained more and more attention recently in both academia and
 industry with the current advances in neural approaches. A TOD system typically consists of several modules, which track user goals to update dialog states, query a
-task-related knowledge base (KB) using the dialog states, decide actions and generate responses.
-
-Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforced Task-Oriented Dialog Systems (SereTOD)", aiming to benchmark semi-supervised task-oriented dialog systems, built for automated customer-service for mobile operators.   
+task-related knowledge base (KB) using the dialog states, decide actions and generate responses. In this challenge, we introduce a new shared task "Towards Semi-Supervised and Reinforced Task-Oriented Dialog Systems (SereTOD)", aiming to benchmark semi-supervised task-oriented dialog systems, built for automated customer-service for mobile operators.   
 
 The purpose of this challenge is to invite researchers from both academia and industry to share their perspectives on building semi-supervised and reinforced TOD systems and to advance the field in joint effort. Hence, we refer to this challenge as the sereTOD challenge. A shared task is organized for benchmarking and stimulating relevant researches. For the first sereTOD challenge, a large-scale TOD dataset is newly released, consisting of 100,000 real-world dialogs, where only 10,000 dialogs are annotated.
 The task consists of two tracks:   
