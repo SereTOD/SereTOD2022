@@ -1,3 +1,6 @@
+# Copyright 2022 SereTOD Challenge Organizers
+# Authors: Hao Peng (peng-h21@mails.tsinghua.edu.cn)
+# Apache 2.0
 import numpy as np
 from collections import Counter
 from scipy.optimize import linear_sum_assignment
