@@ -8,7 +8,7 @@ Organizers: Zhijian Ou, Junlan Feng, Juanzi Li, Yakun Li, Hong Liu, Hao Peng, Yi
 
 # Timeline
 • Apr 29, 2022 Registration opening for shared task  
-• Jun 30, 2022 Registration deadline for shared task  
+• Jul 01, 2022 Registration deadline for shared task  
 • Jul 01, 2022 Training data release  
 • Aug 14, 2022 Evaluation data release  
 • Aug 21, 2022 Entry submission deadline  
