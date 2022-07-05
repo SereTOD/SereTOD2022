@@ -1,3 +1,5 @@
+This is the code repository for [SereTOD Challenge](http://seretod.org/Challenge.html), co-located with [EMNLP2022 SereTOD Workshop](http://seretod.org)!
+
 # Introduction
 Task-oriented dialogue (TOD) systems are designed to assist users to accomplish their goals, and have gained more and more attention recently in both academia and
 industry with the current advances in neural approaches. A TOD system typically consists of several modules, which track user goals to update dialog states, query a
