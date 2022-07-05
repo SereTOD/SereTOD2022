@@ -24,9 +24,10 @@ In this baseline, we divide the dialog system into several subtasks. For every d
 * predict system intent
 * predict system response
 
-We maintain a list of entity names (entity name history) mentioned by the user in previous turns. The entity name history and user utterance are sent into the model as conditional parts to complete the above subtasks. We use the [Chinese GPT-2]() as the backbone of our dialog system, whose structure overview is as follows.
+We maintain a list of entity names (entity name history) mentioned by the user in previous turns. The entity name history and user utterance are sent into the model as conditional parts to complete the above subtasks. We use [Chinese GPT-2](https://huggingface.co/uer/gpt2-chinese-cluecorpussmall) as the backbone of our dialog system, whose structure overview is as follows.
 ![](figs/structure.png)
-The labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled data
+
+During training, the labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled training data
 ```
 bash train.sh $DEVICE
 ```
@@ -36,5 +37,9 @@ Only local KB and dialog history are used in test set. You can perform end-to-en
 ```
 bash test.sh $DEVICE $MODEL_PATH
 ```
-
+The results of the baseline model are: 
+   - P/R/F1 for user intent: 0.666/0.624/0.644
+   - P/R/F1 for system intent: 0.614/0.290/0.394
+   - BLEU-4 score: 4.17
+   - Success rate: 0.315
 

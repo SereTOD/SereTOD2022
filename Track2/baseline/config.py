@@ -17,7 +17,7 @@ class _Config:
         self.gradient_accumulation_steps=4
         self.epoch_num=50
         self.eval_batch_size=32
-        self.lr = 1e-4
+        self.lr = 2e-5
         self.warmup_ratio=0.2
         self.pad_id=0
 
