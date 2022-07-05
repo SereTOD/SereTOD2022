@@ -1,5 +1,7 @@
-# Copyright 2022 Tsinghua SPMI Lab, Author: Hong Liu
-# This script preprocesses the labeled data for Track2 in SereTOD Challenge
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
 
 import json
 import random

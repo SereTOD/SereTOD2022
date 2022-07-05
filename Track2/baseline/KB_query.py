@@ -1,3 +1,8 @@
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
+
 import re
 schema={
     '业务':['业务','数据业务'],

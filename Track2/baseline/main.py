@@ -1,3 +1,8 @@
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
+
 from transformers.optimization import AdamW, get_linear_schedule_with_warmup
 from transformers import GPT2LMHeadModel
 from transformers import BertTokenizer
