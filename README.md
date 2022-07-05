@@ -1,20 +1,25 @@
 # SereTOD Motivation 
 Task-oriented dialogue (TOD) systems are designed to assist users to accomplish their goals, and have gained more and more attention recently in both academia and
 industry with the current advances in neural approaches. A TOD system typically consists of several modules, which track user goals to update dialog states, query a
-task-related knowledge base (KB) using the dialog states, decide actions and generate responses. Unfortunately, building TOD systems remains a label-intensive, timeconsuming task for two main reasons. First, training neural TOD systems requires manually labeled dialog states and system acts (if used), in both traditional modular approach and recent end-to-end trainable approach. Second, it is often assumed that a task-related knowledge base is available. But for system development from scratch in many real-world tasks, expert labors are needed to construct the KB from annotating unstructured data. Thus, the labeled-data scarcity challenge hinders efficient development of TOD systems at scale.   
-Therefore，we introduce a new shared task "Towards Semi-Supervised and Reinforced Task-Oriented Dialog Systems (SereTOD)", aiming to benchmark semi-supervised task-oriented dialog systems, built for automated customer-service for mobile operators. The task consists of two tracks: information extraction from dialog transcripts (Track 1) and semi-supervised task oriented dialog systems (Track 2).  
+task-related knowledge base (KB) using the dialog states, decide actions and generate responses. In this challenge, we introduce a new shared task "Towards Semi-Supervised and Reinforced Task-Oriented Dialog Systems (SereTOD)", aiming to benchmark semi-supervised task-oriented dialog systems, built for automated customer-service for mobile operators.   
 
-Organizers: Zhijian Ou, Junlan Feng, Juanzi Li, Yakun Li, Hong Liu, Hao Peng, Yi Huang, Jiangjiang Zhao
+The purpose of this challenge is to invite researchers from both academia and industry to share their perspectives on building semi-supervised and reinforced TOD systems and to advance the field in joint effort. Hence, we refer to this challenge as the sereTOD challenge. A shared task is organized for benchmarking and stimulating relevant researches. For the first sereTOD challenge, a large-scale TOD dataset is newly released, consisting of 100,000 real-world dialogs, where only 10,000 dialogs are annotated.  
+
+The task consists of two tracks:   
+• Information extraction from dialog transcripts (Track 1)   
+• Semi-supervised task oriented dialog systems (Track 2).  
+
+**Organizers:** Zhijian Ou, Junlan Feng, Juanzi Li, Yakun Li, Hong Liu, Hao Peng, Yi Huang, Jiangjiang Zhao
 
 # Timeline
-• Apr 29, 2022 Registration opening for shared task  
-• Jun 30, 2022 Registration deadline for shared task  
-• Jul 01, 2022 Training data release  
-• Aug 14, 2022 Evaluation data release  
-• Aug 21, 2022 Entry submission deadline  
-• Aug 31, 2022 Evaluation results announced  
-• Sept 07, 2022 Workshop paper due  
-• Oct 09, 2022 Notification of paper acceptance  
+• **Apr 29, 2022** Registration opening for shared task  
+• **Jul 01, 2022** Registration deadline for shared task  
+• **Jul 01, 2022** Training data release  
+• **Aug 14, 2022** Evaluation data release  
+• **Aug 21, 2022** Entry submission deadline  
+• **Aug 31, 2022** Evaluation results announced  
+• **Sept 07, 2022** Workshop paper due  
+• **Oct 09, 2022** Notification of paper acceptance  
 
 # Important Link
 • [Track Proposal](http://seretod.org/SereTOD_Challenge_Description_v1.pdf)    

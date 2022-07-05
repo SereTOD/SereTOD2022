@@ -1,7 +1,7 @@
 # Baseline for SereTOD Track2
 This repository contains the baseline code for SereTOD Track2.
 ## Requirement
-After you create an environment with `python 3.6`, the following commands are recommended to install the corresponding package.
+After you create an environment with `python 3.6`, the following commands are recommended to install the required packages
 * pip install torch==1.5
 * pip install transformers==3.5
 * pip install nltk
