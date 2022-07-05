@@ -1,10 +1,12 @@
+# Copyright 2022 SereTOD Challenge Organizers
+# Authors: Hao Peng (peng-h21@mails.tsinghua.edu.cn)
+# Apache 2.0
+
 import os 
 import pdb 
 import json 
 from tqdm import tqdm 
 from collections import defaultdict
-
-
 
 
 def select_start_position(preds, labels, merge=True):
