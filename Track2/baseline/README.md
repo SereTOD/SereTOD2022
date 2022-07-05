@@ -17,14 +17,24 @@ This script basically includes the following steps:
 2. Normalize the data;
 3. Extract the user goal and local KB for every dialogue
 ## Training
+In this baseline, we divide the dialog system into several subtasks. For every dialog turn, we need to:
+* predict the entity name mentioned or referred to by the user 
+* predict the user intent
+* query local KB using the predicted user intent
+* predict system intent
+* predict system response
+
+We maintain a list of entity names (entity name history) mentioned by the user in previous turns. The entity name history and user utterance are sent into the model as conditional parts to complete the above subtasks. We use the [Chinese GPT-2]() as the backbone of our dialog system, whose structure overview is as follows.
+![](figs/structure.png)
 The labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled data
 ```
 bash train.sh $DEVICE
 ```
 `$DEVICE` can be "cpu" or GPU such as "cuda:0". 
 ## Testing
-Only local KB and dialogue log are used in test set. You can perform end-to-end evaluation on the test set
+Only local KB and dialog history are used in test set. You can perform end-to-end evaluation on the test set
 ```
 bash test.sh $DEVICE $MODEL_PATH
 ```
+
 
