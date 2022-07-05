@@ -38,7 +38,7 @@ The task consists of two tracks:
 
 # Rules
 * The challenge website is http://seretod.org/Challenge.html . Teams should submit the registration form to seretod2022 (at) gmail (dot) com, which will be reviewed by the organizers. 
-* Teams are required to sign a Agreement for Challenge Participation and Data Usage. Data will be provided to approved teams.
+* Teams are required to sign an Agreement for Challenge Participation and Data Usage. Data will be provided to approved teams.
 * For teams that participate in Track 1, the scores will be ranked according to the performance for Track 1. The teams can choose to participate only in Track 1.
 * For teams that participate in Track 2, they can use the baseline system provided by the organizers or use the system developed by themselves for Track 1. The ranking is based on the performance for Track 2.
 * Participants are allowed to use any external datasets, resources or pre-trained models which are publicly available.
