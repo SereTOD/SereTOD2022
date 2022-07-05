@@ -24,7 +24,8 @@ In this baseline, we divide the dialog system into several subtasks. For every d
 * predict system intent
 * predict system response
 
-We maintain a list of entity names (entity name history) mentioned by the user in previous turns. The entity name history and user utterance are sent into the model as conditional parts to complete the above subtasks. We use [Chinese GPT-2](https://huggingface.co/uer/gpt2-chinese-cluecorpussmall) as the backbone of our dialog system, whose structure overview is as follows.
+We maintain a list of entity names (entity name history) mentioned by the user in previous turns. The entity name history and user utterance are sent into the model as conditional parts to complete the above subtasks. 
+Similar to [Liu et al.,2022](https://arxiv.org/abs/2204.06452), we employ a markov generative architecture based on [Chinese GPT-2](https://huggingface.co/uer/gpt2-chinese-cluecorpussmall) to implement the dialog system, whose structure overview is as follows.
 ![](figs/structure.png)
 
 During training, the labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled training data
