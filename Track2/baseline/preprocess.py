@@ -1,7 +1,5 @@
-"""
-Copyright 2022 Tsinghua University
-Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
-"""
+# Copyright 2022 Tsinghua SPMI Lab, Author: Hong Liu
+# This script preprocesses the labeled data for Track2 in SereTOD Challenge
 
 import json
 import random
@@ -54,54 +52,6 @@ def data_statistics():
     json.dump(dials1, open('Track2_data/service_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
     json.dump(dials2, open('Track2_data/user_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
     json.dump(dials3, open('Track2_data/others.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-
-def data_statistics0():
-    data=json.load(open('Track2_data/Raw_data.json', 'r', encoding='utf-8'))
-    c1, c2 = 0, 0
-    c3=0
-    dials1, dials2, dials3 = [], [], []
-    dials_std=[]
-    print(len(data))
-    for dial in data:
-        user_first=0
-        service_first=0
-        other=0
-        confusion=0
-        speakers=set()
-        for turn in dial:
-            temp=list(turn.keys())
-            service, user=temp[:2]
-            speakers.add(service)
-            speakers.add(user)
-            if '客服意图' in temp and '用户意图' in temp:
-                if '意图混乱' in temp or '意图混乱' in turn['用户意图'] or '意图混乱' in turn['客服意图']:
-                    confusion=1
-                    continue
-                if temp.index('客服意图')<temp.index('用户意图'):#客服在前
-                    c1+=1
-                    service_first=1
-                else:
-                    c2+=1
-                    user_first=1
-            else:
-                c3+=1
-                other=1
-        if other or confusion:
-            dials3.append(dial)
-        elif user_first: # 对话中至少有一轮用户在前
-            if len(speakers)==2 and not service_first:
-                dials2.append(dial)
-        else:
-            dials1.append(dial)
-            if len(speakers)==2:
-                dials_std.append(dial)
-    print('轮次——客服在前:', c1, '用户在前:', c2, '其他情况:', c3)
-    print('对话——客服在前:', len(dials1), '用户在前:', len(dials2), '其他情况:', len(dials3))
-    print('标准对话数:', len(dials_std))
-    json.dump(dials1, open('Track2_data/part1.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials2, open('Track2_data/part2.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials3, open('Track2_data/part3.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials_std, open('Track2_data/std_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def clear_data(data):
     dial_count, turn_count=0,0
@@ -206,6 +156,7 @@ def restructure():
                         if 'value' not in triple:
                             continue
                         if triple['value'] in turn1[user]:
+                            triple['pos'][0]=1
                             new_turn['info']['triples'].append(triple)
             if 'info' in turn2:
                 for ent in turn2['info']['ents']:
@@ -229,6 +180,7 @@ def restructure():
                         if 'value' not in triple:
                             continue
                         if triple['value'] in turn2[service]:
+                            triple['pos'][0]=2
                             new_turn['info']['triples'].append(triple)
             new_dial.append(new_turn)
         new_item['content']=new_dial
