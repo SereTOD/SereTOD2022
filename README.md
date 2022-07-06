@@ -19,8 +19,8 @@ The task consists of two tracks:
 # Important Dates (AOE)
 | Date  | Item  |
 | ---: | :--- |
-| July 1, 2022 | Registration deadline for challenge |
-| July 1, 2022 | Training data release |
+| ~~July 1, 2022~~ | ~~Registration deadline for challenge~~ |
+| ~~July 1, 2022~~ | ~~Training data release~~ |
 | July 15, 2022 | ACL Rolling Review paper due (submit via [ARR](https://aclrollingreview.org/)) |
 | August 14, 2022 | Evaluation data release |
 | August 21, 2022 | Entry submission deadline |
