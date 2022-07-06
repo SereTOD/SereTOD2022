@@ -1,5 +1,5 @@
 # SereTOD Track2: Task-Oriented Dialog Systems
-This repository contains the data, scripts and baseline codes for SereTOD Track2.
+This repository contains the evaluation and baseline codes for SereTOD Track2.
 
 Most existing TOD systems require not only large amounts of annotations of dialog states and dialog acts (if used), but also a global knowledge base (KB) covering all public knowledge and all personal information in the domain, which are both difficult to obtain at the research stage. Compared with previous work, the task in Track2 has two main characteristics:
 * There's no global KB but only a local KB for each dialog, representing the unique information for each user, e.g., the user's package plan and remaining phone charges.
