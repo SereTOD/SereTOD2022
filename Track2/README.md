@@ -6,7 +6,7 @@ Most existing TOD systems require not only large amounts of annotations of dialo
 *  Only a proportion of the dialogs is annotated with intents and local KBs. The teams are encouraged to utilize a mix of labeled and unlabeled dialogs to build a TOD system.
 
 # Task Definition
-The basic task for the TOD system is, for each dialog turn, given the dialog history, the user utterance and the local KB, to predict the user intent, query the local KB and generate an appropriate response according to the queried information. 
+The basic task for the TOD system is, for each dialog turn, given the dialog history, the user utterance and the local KB, to predict the user intent, query the local KB and generate appropriate system intent and response according to the queried information. 
 For every labeled dialog, the annotations consist of the user intents, system intents and a local KB obtained by integrating the annotations of entities and triples in Track1. 
 For every unlabeled dialog, those annotations are missing. However, the local KBs of unlabeled dialogs can be constructed by applying the information extraction model in Track1 to extract entities and triples. And the missing intent annotations can also be supplemented by semi-supervised methods such as pseudo labeling.
 # Evaluation
