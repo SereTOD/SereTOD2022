@@ -26,7 +26,7 @@ In this baseline, we divide the dialog system into several subtasks. For every d
 
 We maintain a list of entity names (entity name history), which are mentioned by the user in previous turns. The entity name history and user utterance are fed into the model as the conditioning input to complete the above subtasks. 
 Similar to [Liu et al.,2022](https://arxiv.org/abs/2204.06452), we employ a Markovian generative architecture (MGA) based on [Chinese GPT-2](https://huggingface.co/uer/gpt2-chinese-cluecorpussmall) to implement the dialog system, whose structure overview is as follows.
-![](figs/structure.png)
+![Track 2 baseline overview](figs/structure.png)
 
 During training, the labeled data is splited into training set, validation set and test set with 8:1:1 ratio. You can train the dialog system with all labeled training data
 ```

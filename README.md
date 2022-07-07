@@ -36,6 +36,19 @@ The task consists of two tracks:
 * [Track 1 Details](Track1/) (including baseline and evaluation code)
 * [Track 2 Details](Track2/) (including baseline and evaluation code) 
 
+If you publish experimental results with the MobileCS dataset or use the baseline models, please cite [this article](http://arxiv.org/abs/2207.02657):
+```
+@misc{ou2022achallenge,
+      title={A Challenge on Semi-Supervised and Reinforced Task-Oriented Dialog Systems}, 
+      author={
+        Zhijian Ou and Junlan Feng and Juanzi Li and Yakun Li and Hong Liu and Hao Peng and Yi Huang and Jiangjiang Zhao},
+      year={2022},
+      eprint={2207.02657},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
 # Rules
 * The challenge website is http://seretod.org/Challenge.html . Teams should submit the registration form to seretod2022 (at) gmail (dot) com, which will be reviewed by the organizers. 
 * Teams are required to sign an Agreement for Challenge Participation and Data Usage. Data will be provided to approved teams.
@@ -46,3 +59,8 @@ The task consists of two tracks:
 
 # Contact
 For any questions, please feel free to contact: seretod2022 (at) gmail (dot) com
+
+You are welcome to scan the following QR code to join the WeChat group (in Chinese), where we will distribute messages relevant to the Challenge.
+<p align="center">
+<img src="figs/ewm.png" alt="WeChat QR code" width="200" align="center"/>
+</p>
