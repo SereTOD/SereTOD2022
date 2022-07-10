@@ -8,7 +8,7 @@ After you create an environment with `python 3.6`, the following commands are re
 * pip install tensorboard
 * pip install tqdm
 ## Data Preprocessing
-First, you need to put raw data in `data` directory and rename it to `Raw_data.json`, then run
+First, you need to put raw data in `Track2_data` directory and rename it to `Raw_data.json`, then run
 ```
 python preprocess.py
 ```
