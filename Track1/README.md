@@ -50,6 +50,41 @@ python get_submissions.py
 ```
 You should place the `data` folder in the `baseline/.`.
 
+### Submission Format
+The submission file should be a json formatted file, and the format is as follows:
+```Json
+[
+    { // a doc
+        "id": "2aa131d5143bddb3772f595292987780", // doc id,
+        "entities": [ // extracted entities 
+            {
+                "id": "ent-2",
+                "name": "一百三十八的那个套餐",
+                "type": "主套餐",
+                "position": [
+                    10,
+                    20
+                ],
+                "utterance_id": 3 // index of the utterance 
+            }
+        ]
+        "triples": [
+            {
+                "ent-name": "None", // ent name is not needed, you can set it "None"
+                "ent-id": "ent-2",
+                "value": "一百三十八",
+                "prop": "业务费用",
+                "position": [
+                    10,
+                    15
+                ],
+                "utterance_id": 3
+            }
+        ]
+    }
+]
+```
+
 ### Evaluation and Results
 We use micro-F1 as the basic metric. Before evaluation, we run Hungarian Algorithm on the submissions to 
 get best assignments between predicted entities and golden entities. The evaluation script `eval_script.py` is also provided in the repo.  
