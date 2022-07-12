@@ -151,7 +151,8 @@ def find_best_entity_assignment_per_doc(pred_result, golden_result):
                 for triple in triples_label:
                     golden_triples.append(get_triple_id(triple, ""))
                 triple_f1 = compute_F1(pred_triples, golden_triples)
-            final_f1 = (ent_f1 + triple_f1) / 2
+            # final_f1 = (ent_f1 + triple_f1) / 2
+            final_f1 = triple_f1
             cost_matrix[i, j] = final_f1
     row_ids, col_ids = linear_sum_assignment(-cost_matrix)
     pred2label = {}
