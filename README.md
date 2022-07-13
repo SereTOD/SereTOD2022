@@ -59,11 +59,11 @@ If you publish experimental results with the MobileCS dataset or use the baselin
 # Submission Guidelines
 * Each team needs to submit a package via email to seretod2022 (at) gmail (dot) com before the Entry Submission Deadline (August 21, 2022). The submission package should contain the system executable with the model. All dependencies must be contained in the submission package.
 
-* The submission should provide clear documentation for running the system. Direct running the executable without any arguments should output the result file with the required format. See [Track1 README](Track1/README.md) and [Track2 README](Track2/README.md) for the formats.
+* The submission should provide clear documentation for running the system. Direct running the executable without any arguments should output the result file with the required format. See [Track1 README](Track1/README.md#SubmissionFormat) and [Track2 README](Track2/README.md#SubmissionFormat) for the formats.
 
 * The submitted system could be, but not limited to be, encapsulated in a Docker image, as long as the above requirements are satisfied.
 
-* The submission should provide a system description paper. Teams are also encouraged to submit papers to EMNLP2022 SereTOD Workshop. See important dates and instructions in http://seretod.org/Call%20for%20Papers.html.
+* The submission should provide a system description paper. Teams are also encouraged to submit papers to EMNLP2022 SereTOD Workshop. See important dates and instructions in [Call for Papers](http://seretod.org/Call%20for%20Papers.html).
 
 * Before the Entry Submission Deadline (August 21, 2022), each team can submit for multiple times for each track. The last entry from each team will be used for the evaluation.
 

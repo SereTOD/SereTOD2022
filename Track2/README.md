@@ -24,7 +24,7 @@ For each dialog, the user will score the system on a 3-point scale (0, 1, or 2) 
 The average scores from automatic evaluation and human evaluation will be the main ranking basis on leaderboard.
 We will provide the following scripts and tools for the participants: 1) A baseline system; 2) Evaluation scripts to calculate the corpus-based metrics.
 
-## Submission Format
+# Submission Format
 An example of test data is shown in [test_example.json](./baseline/Track2_data/test_example.json), where the user intent (用户意图-生成), system intent (客服意图-生成) and system response (客服-生成) are left to be filled.
 Participants should fill the blank fields and organize their results into the format as exemplified in [result_example.json](./baseline/Track2_data/result_example.json).
 
