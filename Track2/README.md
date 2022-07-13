@@ -25,8 +25,8 @@ The average scores from automatic evaluation and human evaluation will be the ma
 We will provide the following scripts and tools for the participants: 1) A baseline system; 2) Evaluation scripts to calculate the corpus-based metrics.
 
 ## Submission Format
-The examples of hidden test data are shown in [test_example.json](./baseline/Track2_data/test_example.json).
-Participants will organize their results into the same format as [result_example.json](./baseline/Track2_data/result_example.json), where they need to use the generated user intent (用户意图-生成), system intent (客服意图-生成) and system response (客服-生成) to fill in the corresponding blank keys.
+An example of test data is shown in [test_example.json](./baseline/Track2_data/test_example.json), where the user intent (用户意图-生成), system intent (客服意图-生成) and system response (客服-生成) are left to be filled.
+Participants should fill the blank fields and organize their results into the format as exemplified in [result_example.json](./baseline/Track2_data/result_example.json).
 
 # Data and Baseline
 In this challenge task, participants will use [SereTOD dataset](../data/) to build a TOD system. Note that there are only annotations of intents, entities and triples in the dataset, so it is neccessary to **extract the local KB and user goal** for each dialogue. The extraction script and baseline code can be seen in [baseline](./baseline/).
