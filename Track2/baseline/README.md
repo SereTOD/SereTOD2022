@@ -40,6 +40,6 @@ bash test.sh $DEVICE $MODEL_PATH
 ```
 The results of the baseline model are: 
    - P/R/F1 for user intent: 0.666/0.624/0.644
-   - P/R/F1 for system intent: 0.614/0.290/0.394
+   - P/R/F1 for system intent: 0.614/0.534/0.571
    - BLEU-4 score: 4.17
    - Success rate: 0.315

@@ -107,7 +107,7 @@ def eval_end_to_end(test_data):
                     tp_s+=1
                 else:
                     fp_s+=1
-            for si in true_si:
+            for si in true_si.split(','):
                 if si not in gen_si:
                     fn_s+=1
             # compare user intents
