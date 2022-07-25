@@ -51,6 +51,7 @@ python get_submissions.py
 You should place the `data` folder in the `baseline/.`.
 
 ### Submission Format
+After runing the pipeline, you can use `get_submissions.py` to get the final submission file.
 The submission file should be a json formatted file, and the format is as follows:
 ```Json
 [

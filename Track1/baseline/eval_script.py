@@ -131,27 +131,14 @@ def find_best_entity_assignment_per_doc(pred_result, golden_result):
         ents_pred = get_ents_by_id(pred_result, entids_in_pred[i])
         triples_pred = get_triples_by_entid(pred_result, entids_in_pred[i])
         for j in range(n):
-            ents_label = get_ents_by_id(golden_result, entids_in_label[j])
             triples_label = get_triples_by_entid(golden_result, entids_in_label[j])
-            # ents 
-            pred_ents = []
-            for ent in ents_pred:
-                pred_ents.append(get_ent_id(ent, ""))
-            golden_ents = []
-            for ent in ents_label:
-                golden_ents.append(get_ent_id(ent, ""))
-            ent_f1 = compute_F1(pred_ents, golden_ents)
-            if ent_f1 == 0:
-                continue
-            else:
-                pred_triples = []
-                for triple in triples_pred:
-                    pred_triples.append(get_triple_id(triple, ""))
-                golden_triples = []
-                for triple in triples_label:
-                    golden_triples.append(get_triple_id(triple, ""))
-                triple_f1 = compute_F1(pred_triples, golden_triples)
-            # final_f1 = (ent_f1 + triple_f1) / 2
+            pred_triples = []
+            for triple in triples_pred:
+                pred_triples.append(get_triple_id(triple, ""))
+            golden_triples = []
+            for triple in triples_label:
+                golden_triples.append(get_triple_id(triple, ""))
+            triple_f1 = compute_F1(pred_triples, golden_triples)
             final_f1 = triple_f1
             cost_matrix[i, j] = final_f1
     row_ids, col_ids = linear_sum_assignment(-cost_matrix)
