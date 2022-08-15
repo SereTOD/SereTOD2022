@@ -16,6 +16,8 @@ class _Config:
         self.data_path='Track2_data/processed_data.json'
         self.data_dir='Track2_data/'
 
+        self.test_path=''
+
         self.device=0
         self.batch_size=8
         self.gradient_accumulation_steps=4

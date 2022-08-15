@@ -155,12 +155,15 @@ def read_data(tokenizer):
     return encoded_data
 
 def extract_test_dial(data='test'):
-    dial_ids=json.load(open(os.path.join(cfg.data_dir, 'dial_ids.json'), 'r', encoding='utf-8'))
-    all_data=json.load(open(cfg.data_path, 'r', encoding='utf-8'))
-    test_data=[]
-    for dial in all_data:
-        if dial['id'] in dial_ids[data]:
-            test_data.append(dial)
+    if cfg.test_path=='':
+        dial_ids=json.load(open(os.path.join(cfg.data_dir, 'dial_ids.json'), 'r', encoding='utf-8'))
+        all_data=json.load(open(cfg.data_path, 'r', encoding='utf-8'))
+        test_data=[]
+        for dial in all_data:
+            if dial['id'] in dial_ids[data]:
+                test_data.append(dial)
+    else:
+        test_data=json.load(open(cfg.test_path, 'r', encoding='utf-8'))
     return test_data
 
 def train_collate_fn(batch):
