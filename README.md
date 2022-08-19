@@ -21,11 +21,12 @@ The task consists of two tracks:
 | ---: | :--- |
 | ~~July 1, 2022~~ | ~~Registration deadline for challenge~~ |
 | ~~July 1, 2022~~ | ~~Training data release~~ |
-| July 15, 2022 | ACL Rolling Review paper due (submit via [ARR](https://aclrollingreview.org/)) |
-| August 14, 2022 | Evaluation data release |
-| August 21, 2022 | Entry submission deadline |
-| August 31, 2022 | Evaluation results announced |
-| September 7, 2022 | Regular paper due (submit via [softconf](https://softconf.com/emnlp2022/seretod/)) |
+| ~~July 15, 2022~~ | ~~ACL Rolling Review paper due (submit via [ARR](https://aclrollingreview.org/))~~ |
+| ~~August 14, 2022~~ | ~~Evaluation data release~~ |
+| August 31, 2022 | Entry submission deadline (extended) |
+| September 10, 2022 | Evaluation results announced (extended) |
+| September 17, 2022 | Regular paper due (via [softconf](https://softconf.com/emnlp2022/seretod/)) (extended) |
+| October 2, 2022 | ARR commitment due (via [OpenReview](https://openreview.net/group?id=EMNLP/2022/Workshop/SereTOD_Commitments)) |
 | October 9, 2022 | Notification of paper acceptance |
 | October 16, 2022 | Camera-ready papers due |
 | December 7, 2022 | EMNLP 2022 Workshop Date |
