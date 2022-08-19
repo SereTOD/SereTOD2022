@@ -1,5 +1,9 @@
 # SereTOD Track1: Information Extraction from dialog transcripts
 This repository contains the task, evaluation, data and baseline codes for SereTOD Track1. 
+
+# Update 
+**2022.08.19** Update evaluation script: 1. Use `mention` instead of `offset` for evaluation 2. Add `post_process.py` to filter noisy instances before evaluation. The lastest baseline results are: **F1 (entity) 38.16, F1 (Triple) 38.40**. 
+
 # Task    
 In a task-oriented dialog system, after dialog state tracking, the system needs to query a task-related knowledge base. Given a mix of labeled and unlabeled dialog transcripts, Track 1 examines the task of training information extraction models to construct the “local” knowledge base for each dialog, which will be needed in training TOD systems in Track 2. Therefore, we define two sub-tasks:  
 1) Entity extraction. This sub-task is to extract entities with their corresponding concepts. In real-life dialogs, an entity
