@@ -1,5 +1,5 @@
 # SereTOD Track1: Information Extraction from dialog transcripts
-This repository contains the task, evaluation, data and baseline codes for SereTOD Track1. 
+This directory contains the task definition, evaluation, and baseline code for SereTOD Track1. 
 # Task    
 In a task-oriented dialog system, after dialog state tracking, the system needs to query a task-related knowledge base. Given a mix of labeled and unlabeled dialog transcripts, Track 1 examines the task of training information extraction models to construct the “local” knowledge base for each dialog, which will be needed in training TOD systems in Track 2. Therefore, we define two sub-tasks:  
 1) Entity extraction. This sub-task is to extract entities with their corresponding concepts. In real-life dialogs, an entity
@@ -10,21 +10,21 @@ Given a dialog in testing, the trained information extraction model is used to e
 1) For entity extraction, the F1 is calculated at entity mention level: an entity mention is extracted correctly if and only if the mention span of the entity is labeled as the corresponding entity-type (i.e., concept).   
 2) For slot filling, the F1 is calculated at triple level: an entity-slot-value triple is extracted correctly if and only if 1) the mention span of the slot value is labeled as the corresponding slot type. 2) the slot-value pair is correctly assigned to the corresponding entity.  
 
-For entity extraction, the participants need to submit all the predicted mentions with their types. For slot filling, the participants need to submit the extracted entities with entity resolution. Each extracted entity may contain multiple mentions and is represented as a set of entity-slot-value triples. The performance of slot filling is measured by finding the best match between the extracted entities and the golden labeled entities using the Hungarian Algorithm and calculating the F1.    
+For entity extraction, the participants need to submit all the predicted mentions with their types. For slot filling, the participants need to submit the extracted entities with entity resolution. Each extracted entity may contain multiple mentions and is represented as a set of entity-slot-value triples. The performance of slot filling is measured by finding the best match between the extracted entities and the golden labeled entities using the [Hungarian Algorithm](https://en.wikipedia.org/wiki/Hungarian_algorithm) and calculating the F1.    
 
 The average F1 scores of entity extraction and slot filling will be the ranking basis on leaderboard. We will provide the following scripts and tools for the participants: 1) Baseline models for both sub-tasks; 2) Evaluation scripts to calculate the metrics.
 
 
 
 # Baseline 
-The folder provide a pipeline for extracting entities and their corresponding properties (slots) and values. In general, the pipeline contains 4 components.  
+The folder provides a pipeline for extracting entities and their corresponding properties (slots) and values. In general, the pipeline contains 4 components.  
 **1. Entity Extraction**  
-We implement a sequence labeling model to extract entity mentions in dialogue utterances. Using this 
+We implement a sequence labeling model to extract entity mentions in dialog utterances. Using this 
 component, we get entity mentions from utterances.  
 **2. Entity Coreference**  
 After entity extraction, we need to cluster the mentions of the same entity into a single cluster. Therefore, we provide the component to conduct entity coreference resolution.  
 **3. Slot Filling**  
-After entity extraction and entity coreference resolution, we extract properties (slots) using
+After entity extraction and entity coreference resolution, we extract properties (slots) using a
 sequence labeling method.  
 **4. Entity Slot Alignment**  
 After extracting entities and slots, we need to align them (i.e., assign slots to the coresponding entities). 
@@ -44,7 +44,7 @@ Then, run all the components in order to get the prediction:
 ```Shell
 bash run_all.sh
 ```
-Finally, use script to get the final submissions:
+Finally, use the following script to get the final submissions:
 ```Shell
 python get_submissions.py
 ```

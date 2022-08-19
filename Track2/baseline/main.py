@@ -1,3 +1,8 @@
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
+
 from transformers.optimization import AdamW, get_linear_schedule_with_warmup
 from transformers import GPT2LMHeadModel
 from transformers import BertTokenizer
@@ -102,6 +107,7 @@ class Model(object):
             if eval_loss<min_loss:
                 min_loss=eval_loss
                 self.save_model()
+        self.save_model(path='last_epoch_model')
  
     def get_optimizers(self, num_samples, model):
         optimizer_grouped_parameters = [
@@ -168,17 +174,17 @@ class Model(object):
             dial_num=0
             turn_num=0
             with torch.no_grad():
-                for key, dial in tqdm(test_data.items()):
+                for dial in tqdm(test_data):
                     dial_num+=1
                     #if dial_num==5:
                     #   break
                     KB, goal=dial['KB'], dial['goal']
                     EN_list=set([])
-                    for turn in dial['log']:
+                    for turn in dial['content']:
                         turn_num+=1
                         pv_EN_list=copy.deepcopy(EN_list)
                         EN_list_seq=','.join(list(pv_EN_list))
-                        context=EN_list_seq+'[EOS_L]'+turn['用户']+'[EOS_U]'
+                        context=EN_list_seq+'[EOS_L]'+turn['用户'].lower()+'[EOS_U]'
                         context_ids=self.tokenizer.encode(context)[:-1]
                         # predict entity names mentioned in this turn
                         #logging.info(self.tokenizer.decode(context_ids).replace(' ', ''))
@@ -217,11 +223,11 @@ class Model(object):
                                 for e in info:
                                     e=e.strip('-')
                                     if '-' in e:
-                                        if e.split('-')!=2:
+                                        if len(e.split('-'))!=2:
                                             continue
                                         ent_name, prop=e.split('-')
                                         res=query(KB, ent_name=ent_name, prop=prop)
-                                    elif e in ['业务','数据业务','套餐', '主套餐','附加套餐','国际漫游业务','流量包','长途业务','4G套餐','5G套餐']:
+                                    elif e.lower() in ['业务','数据业务','套餐', '主套餐','附加套餐','国际漫游业务','流量包','长途业务','4g套餐','5g套餐']:
                                         res=query(KB, ent_type=e)
                                     else:
                                         res=query(KB, prop=e)
@@ -245,7 +251,7 @@ class Model(object):
                         # generate system response
                         context_ids=generated
                         #logging.info(self.tokenizer.decode(context_ids).replace(' ', ''))
-                        max_len=len(context_ids)+60
+                        max_len=len(context_ids)+65
                         eos_id=self.tokenizer.convert_tokens_to_ids('[EOS_S]')
                         outputs = self.model.generate(input_ids=torch.tensor([context_ids]).to(self.model.device),
                                                 pad_token_id=cfg.pad_id, max_length=max_len, eos_token_id=eos_id)
@@ -254,7 +260,7 @@ class Model(object):
                             generated[-1]=eos_id
                         resp=self.tokenizer.decode(generated[len(context_ids):-1]).replace(' ', '')
                         # delete repetition
-                        repeated=re.findall(r'(.{3,12})\1+', resp)
+                        repeated=re.findall(r'(.{3,})\1+', resp)
                         for p in repeated:
                             if p in resp:
                                 idx=resp.index(p)+len(p)

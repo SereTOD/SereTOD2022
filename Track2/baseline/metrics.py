@@ -1,3 +1,8 @@
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
+
 import math, logging, copy, json, re
 from collections import Counter, OrderedDict
 from nltk.util import ngrams
@@ -80,8 +85,8 @@ def eval_end_to_end(test_data):
     tp_s, fp_s, fn_s = 0, 0, 0
     dials_with_requested=0
     success=0
-    for key, dial in test_data.items():
-        KB, goal, log=dial['KB'], dial['goal'], dial['log']
+    for dial in test_data:
+        KB, goal, log=dial['KB'], dial['goal'], dial['content']
         requested_info=extract_request_info(goal, KB)
         completed=[0 for _ in range(len(requested_info))]
         dial['requested_info']=requested_info
@@ -102,7 +107,7 @@ def eval_end_to_end(test_data):
                     tp_s+=1
                 else:
                     fp_s+=1
-            for si in true_si:
+            for si in true_si.split(','):
                 if si not in gen_si:
                     fn_s+=1
             # compare user intents

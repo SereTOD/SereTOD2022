@@ -5,8 +5,14 @@ import json
 import random
 import copy
 import re
+
+#root_path='Track2_data/'
+#data_file='Raw_data.json'
+root_path='Test_data/'
+data_file='dev_data.json'
+
 def data_statistics():
-    data=json.load(open('Track2_data/Raw_data.json', 'r', encoding='utf-8'))
+    data=json.load(open(root_path+data_file, 'r', encoding='utf-8'))
     c1, c2 = 0, 0
     c3=0
     dials1, dials2, dials3 = [], [], []
@@ -49,9 +55,10 @@ def data_statistics():
             dials3.append(dial)
     print('轮次——客服在前:', c1, '用户在前:', c2, '其他情况:', c3)
     print('对话——客服在前:', len(dials1), '用户在前:', len(dials2), '其他情况:', len(dials3))
-    json.dump(dials1, open('Track2_data/service_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials2, open('Track2_data/user_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
-    json.dump(dials3, open('Track2_data/others.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials1, open(root_path+'service_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials2, open(root_path+'user_first.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(dials3, open(root_path+'others.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+
 
 def clear_data(data):
     dial_count, turn_count=0,0
@@ -111,8 +118,8 @@ def clear_data(data):
 
 def restructure():
     # restructure the data so that user speaks first at all turns
-    data=json.load(open('Track2_data/service_first.json', 'r', encoding='utf-8'))
-    data1=json.load(open('Track2_data/user_first.json', 'r', encoding='utf-8'))
+    data=json.load(open(root_path+'service_first.json', 'r', encoding='utf-8'))
+    data1=json.load(open(root_path+'user_first.json', 'r', encoding='utf-8'))
     #data, _=clear_data(data)
     #data1,_=clear_data(data1)
     new_data=[]
@@ -156,7 +163,8 @@ def restructure():
                         if 'value' not in triple:
                             continue
                         if triple['value'] in turn1[user]:
-                            triple['pos'][0]=1
+                            if 'pos' in triple:
+                                triple['pos'][0]=1
                             new_turn['info']['triples'].append(triple)
             if 'info' in turn2:
                 for ent in turn2['info']['ents']:
@@ -180,7 +188,8 @@ def restructure():
                         if 'value' not in triple:
                             continue
                         if triple['value'] in turn2[service]:
-                            triple['pos'][0]=2
+                            if 'pos' in triple:
+                                triple['pos'][0]=2
                             new_turn['info']['triples'].append(triple)
             new_dial.append(new_turn)
         new_item['content']=new_dial
@@ -197,10 +206,10 @@ def restructure():
         new_item['content']=new_dial
         new_data.append(new_item)
     print('Total restructured data:', len(new_data))
-    json.dump(new_data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(new_data, open(root_path+'restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def extract_local_KB():
-    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
+    data=json.load(open(root_path+'restructured_data.json', 'r', encoding='utf-8'))
     new_data=[]
     count=0
     turn_num=0
@@ -219,8 +228,6 @@ def extract_local_KB():
         # extract db
         for turn in dial['content']:
             turn_num+=1
-            turn['用户意图']=turn['用户意图'].replace('（', '(').replace('）',')').replace('，',',')
-            turn['客服意图']=turn['客服意图'].replace('（', '(').replace('）',')').replace('，',',')
             if '(' in turn['用户意图']:
                 query_num+=1
                 with_query=1
@@ -327,13 +334,15 @@ def extract_local_KB():
     print('Triple appeare before entity:', count)
     print('Total turns:', turn_num, 'query turns:', query_num)
     print('Total dials:', len(new_data), 'query dials:', query_dial)
-    json.dump(new_data, open('Track2_data/processed_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(new_data, open(root_path+'processed_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def normalize():
-    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
+    data=json.load(open(root_path+'restructured_data.json', 'r', encoding='utf-8'))
     count=0
     for dial in data:
         for turn in dial['content']:
+            turn['用户意图']=turn['用户意图'].replace('（', '(').replace('）',')').replace('，',',')
+            turn['客服意图']=turn['客服意图'].replace('（', '(').replace('）',')').replace('，',',')
             turn['用户意图']=turn['用户意图'].replace(',ent', ')(ent')
             turn['用户意图']=turn['用户意图'].replace('))', ')')
             turn['用户意图']=turn['用户意图'].replace('),(', ')(')
@@ -382,11 +391,11 @@ def normalize():
                             count+=1
             '''
     #print('修改实体三元组key个数:',count)
-    json.dump(data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(data, open(root_path+'restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
  
 
 def add_constraint():
-    data=json.load(open('Track2_data/restructured_data.json', 'r', encoding='utf-8'))
+    data=json.load(open(root_path+'restructured_data.json', 'r', encoding='utf-8'))
     query_num, query_wo_cons, query_cons_in_triple=0, 0, 0
     collected_turns=[]
     add_num=0
@@ -421,9 +430,9 @@ def add_constraint():
     #print('查询意图:', query_num, '无约束的查询意图', query_wo_cons, '查询约束存在于三元组标注中', query_cons_in_triple)
     #print('询问意图:', inquiry_num, '无约束的询问意图', inquiry_wo_cons, '询问约束存在于三元组标注中', inquiry_cons_in_triple)
     #print('Collected turns:', len(collected_turns))
-    #json.dump(collected_turns, open('Track2_data/temp.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    #json.dump(collected_turns, open(root_path+'temp.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
     print('Add constraints num:', add_num)
-    json.dump(data, open('Track2_data/restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    json.dump(data, open(root_path+'restructured_data.json', 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 if __name__=='__main__':
     data_statistics()

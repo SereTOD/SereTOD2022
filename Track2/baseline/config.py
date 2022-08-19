@@ -1,3 +1,7 @@
+"""
+Copyright 2022 Tsinghua University
+Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
+"""
 import logging, time, os
 
 class _Config:
@@ -9,15 +13,17 @@ class _Config:
         self.mode='train'
 
         self.gpt_path='uer/gpt2-chinese-cluecorpussmall'
-        self.data_path='data/processed_data.json'
-        self.data_dir='data/'
+        self.data_path='Track2_data/processed_data.json'
+        self.data_dir='Track2_data/'
+
+        self.test_path=''
 
         self.device=0
         self.batch_size=8
         self.gradient_accumulation_steps=4
         self.epoch_num=50
         self.eval_batch_size=32
-        self.lr = 1e-4
+        self.lr = 2e-5
         self.warmup_ratio=0.2
         self.pad_id=0
 
@@ -29,7 +35,7 @@ class _Config:
         if self.mode=='train':
             file_handler = logging.FileHandler('./log/log_{}_{}_sd{}.txt'.format(self.mode, self.exp_name, self.seed))
         else:
-            file_handler = logging.FileHandler('./others.txt')
+            file_handler = logging.FileHandler(os.path.join(self.gpt_path, 'eval_log.txt'))
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
         logging.basicConfig(handlers=[stderr_handler, file_handler])
