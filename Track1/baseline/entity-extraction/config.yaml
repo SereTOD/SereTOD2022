@@ -10,7 +10,7 @@ output_dir: output/Event-Extraction
 type2id_path: ../data/type2id.json 
 train_file: ../data/train.json
 validation_file: ../data/dev.json
-test_file: ../data/test.json
+test_file: ../data/test_without_labels.json
 language: Chinese
 test_exists_labels: False 
 

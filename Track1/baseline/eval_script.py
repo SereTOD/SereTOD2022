@@ -8,6 +8,7 @@ import numpy as np
 from tqdm import tqdm 
 
 from scipy.optimize import linear_sum_assignment
+from post_process import filter_noisy_token_pred, filter_noisy_token_label
 
 
 def get_text_and_entities(item):
@@ -19,28 +20,20 @@ def get_text_and_entities(item):
             utterances.append(turn[key])
         for ent in turn["info"]["ents"]:
             for position in ent["pos"]:
-                utterance_id = len(utterances) - (3-position[0])
                 offset = position[1:]
                 entities.append({
                     "id": ent["id"],
                     "name": ent["name"],
                     "type": ent["type"],
-                    "position": offset,
-                    "utterance_id": utterance_id
+                    "position": offset
                 })
-                assert utterances[utterance_id][offset[0]:offset[1]] == ent["name"]
         for triple in turn["info"]["triples"]:
-            utterance_id = len(utterances) - (3-triple["pos"][0])
-            offset = triple["pos"][1:]
             triples.append({
                 "ent-name": triple["ent-name"],
                 "ent-id": triple["ent-id"],
                 "value": triple["value"],
                 "prop": triple["prop"],
-                "position": offset,
-                "utterance_id": utterance_id
             })
-            assert utterances[utterance_id][offset[0]:offset[1]] == triple["value"]
     return utterances, entities, triples
 
 
@@ -103,22 +96,19 @@ def get_triples_by_entid(item, ent_id):
 
 def get_ent_id(ent, doc_id, type=False):
     if type:
-        return "-".join([doc_id, str(ent["utterance_id"]), str(ent["position"][0]), str(ent["position"][1]), ent["type"]])
+        return "-".join([doc_id, ent["name"], ent["type"]])
     else:
-        return "-".join([doc_id, str(ent["utterance_id"]), str(ent["position"][0]), str(ent["position"][1])])
+        return "-".join([doc_id, ent["name"]])
 
 
 def get_triple_id(triple, doc_id, prop=False, pred=False):
     if prop:
         if pred:
-            return  "-".join([doc_id, str(triple["assign-ent-id"]), str(triple["utterance_id"]), 
-                        str(triple["position"][0]), str(triple["position"][1]), triple["prop"]])
+            return  "-".join([doc_id, str(triple["assign-ent-id"]), triple["value"], triple["prop"]])
         else:
-            return  "-".join([doc_id, str(triple["ent-id"]), str(triple["utterance_id"]), 
-                        str(triple["position"][0]), str(triple["position"][1]), triple["prop"]])
+            return  "-".join([doc_id, str(triple["ent-id"]), triple["value"], triple["prop"]])
     else:
-        return "-".join([doc_id, str(triple["utterance_id"]), str(triple["position"][0]), 
-                    str(triple["position"][1])])
+        return "-".join([doc_id, triple["value"]])
 
 
 def find_best_entity_assignment_per_doc(pred_result, golden_result):
@@ -201,8 +191,8 @@ def compute_result(all_preds, all_labels):
 
 
 if __name__ == "__main__":
-    all_preds = json.load(open("submissions.json"))
-    all_labels = get_golden_labels("data/test_with_labels.json")
+    all_preds = filter_noisy_token_pred(json.load(open("submissions.json")))
+    all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels.json"))
     print(compute_result(all_preds, all_labels))
 
 
