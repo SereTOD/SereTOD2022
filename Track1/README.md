@@ -87,8 +87,7 @@ The submission file should be a json formatted file, and the format is as follow
 ```
 
 ### Evaluation and Results
-We use micro-F1 as the basic metric. 
-For evaluation, we run the [Hungarian Algorithm](https://en.wikipedia.org/wiki/Hungarian_algorithm) on the submissions to 
-get the best assignments between predicted entities and golden entities. The evaluation script `eval_script.py` is also provided in the repo.  
-We random sample 1,000 instances as the test set and evaluate the baseline on the test set. The results are:
-**F1 (entity) 35.73, F1 (Triple) 27.23**. The results are relatively low, which indicates that the task is challenging and needs more powerful models. 
+We use micro-F1 as the basic metric. Before evaluation, we run Hungarian Algorithm on the submissions to 
+get best assignments between predicted entities and golden entities. The evaluation script `eval_script.py` is also provided in the repo.  
+We random sample 1,000 instances as the test set and evaluate our baseline on the test set. The results are:
+**F1 (entity) 38.16, F1 (Triple) 38.40**. The results are relatively low, which indicates the task is challenging and needs more powerful models. 
