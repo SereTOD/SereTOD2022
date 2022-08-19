@@ -92,7 +92,8 @@ def dump_result_sl(preds, labels, is_overflow, config):
             text_in_turn = list("".join(text_in_turn_list))
             # check for alignment 
             if not is_overflow[idx]:
-                assert len(preds[idx]) == len(text_in_turn)  # remove space/special token
+                if len(preds[idx]) != len(text_in_turn):  # remove space/special token
+                    print("Warning! An unexpected mis-alignment.", text_in_turn)
             # get predictions
             props = get_pred_per_mention(preds[idx], config.id2role, text_in_turn, turn)
             # record results

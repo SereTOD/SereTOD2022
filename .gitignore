@@ -1,0 +1,8 @@
+# cache 
+**/__pycache__
+
+# Track1 data 
+/Track1/baseline/data/*
+
+# Track1 output
+/Track1/**/output 
