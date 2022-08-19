@@ -1,3 +1,5 @@
+#Copyright 2022 Tsinghua University
+#Author: Hong Liu (liuhong21@mails.tsinghua.edu.cn)
 python main.py -mode train\
     -cfg batch_size=8\
     gradient_accumulation_steps=4\
