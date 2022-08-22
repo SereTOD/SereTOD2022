@@ -14,6 +14,12 @@ def get_submissions(result_file):
             "entities": item["entities"],
             "triples": item["triples"]
         }
+        for ent in new_item["entities"]:
+            ent["turn_id"] = ent["utterance_id"] // 2
+            ent.pop("utterance_id", None)
+        for triple in new_item["triples"]:
+            triple["turn_id"] = triple["utterance_id"] // 2
+            triple.pop("utterance_id", None)
         final_submissions.append(new_item)
     json.dump(final_submissions, open("submissions.json", "w"), indent=4, ensure_ascii=False)
 
