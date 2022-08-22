@@ -2,20 +2,20 @@
 # Authors: Hao Peng (peng-h21@mails.tsinghua.edu.cn)
 # Apache 2.0
 import os 
-import pdb 
+import pdb
+import copy  
 import json 
 import numpy as np 
 from tqdm import tqdm 
 
 from scipy.optimize import linear_sum_assignment
-from post_process import filter_noisy_token_pred, filter_noisy_token_label
 
 
 def get_text_and_entities(item):
     utterances = []
     entities = []
     triples = []
-    for turn in item["content"]:
+    for turn_idx, turn in enumerate(item["content"]):
         for key in list(turn.keys())[:2]:
             utterances.append(turn[key])
         for ent in turn["info"]["ents"]:
@@ -25,15 +25,22 @@ def get_text_and_entities(item):
                     "id": ent["id"],
                     "name": ent["name"],
                     "type": ent["type"],
-                    "position": offset
+                    "position": offset,
+                    "turn_id": turn_idx
                 })
+                # assert utterances[utterance_id][offset[0]:offset[1]] == ent["name"]
         for triple in turn["info"]["triples"]:
+            # utterance_id = len(utterances) - (3-triple["pos"][0])
+            # offset = triple["pos"][1:]
             triples.append({
                 "ent-name": triple["ent-name"],
                 "ent-id": triple["ent-id"],
                 "value": triple["value"],
                 "prop": triple["prop"],
+                # "position": offset,
+                "turn_id": turn_idx
             })
+            # assert utterances[utterance_id][offset[0]:offset[1]] == triple["value"]
     return utterances, entities, triples
 
 
@@ -53,18 +60,20 @@ def get_golden_labels(label_path):
 
 
 
-def compute_F1(preds, labels):
-    total_pred = 0
-    total_label = 0
-    total_true = 0
-    for triple in preds:
-        total_pred += 1
-        if triple in labels:
-            total_true += 1
-    for triple in labels:
-        total_label += 1
-    precision = total_true / (total_pred+1e-10)
-    recall = total_true / (total_label+1e-10)
+
+def compute_F1(pred_list, golden_list):
+    pred_num = len(pred_list)
+    golden_num = len(golden_list)
+    # delete dup 
+    true_positive = 0
+    dup_golden_list = copy.deepcopy(golden_list)
+    for pred in pred_list:
+        if pred in dup_golden_list:
+            true_positive += 1
+            dup_golden_list.remove(pred)
+    # F1
+    precision = true_positive / (pred_num+1e-10)
+    recall = true_positive / (golden_num+1e-10)
     f1 = 2*precision*recall / (precision+recall+1e-10)
     return f1 
 
@@ -96,19 +105,21 @@ def get_triples_by_entid(item, ent_id):
 
 def get_ent_id(ent, doc_id, type=False):
     if type:
-        return "-".join([doc_id, ent["name"], ent["type"]])
+        return "-".join([doc_id, str(ent["turn_id"]), str(ent["position"][0]), str(ent["position"][1]), ent["type"]])
     else:
-        return "-".join([doc_id, ent["name"]])
+        return "-".join([doc_id, str(ent["turn_id"]), str(ent["position"][0]), str(ent["position"][1])])
 
 
 def get_triple_id(triple, doc_id, prop=False, pred=False):
     if prop:
         if pred:
-            return  "-".join([doc_id, str(triple["assign-ent-id"]), triple["value"], triple["prop"]])
+            return  "-".join([doc_id, str(triple["assign-ent-id"]), str(triple["turn_id"]), 
+                        triple["value"], triple["prop"]])
         else:
-            return  "-".join([doc_id, str(triple["ent-id"]), triple["value"], triple["prop"]])
+            return  "-".join([doc_id, str(triple["ent-id"]), str(triple["turn_id"]), 
+                        triple["value"], triple["prop"]])
     else:
-        return "-".join([doc_id, triple["value"]])
+        return "-".join([doc_id, str(triple["turn_id"]), triple["value"]])
 
 
 def find_best_entity_assignment_per_doc(pred_result, golden_result):
@@ -118,7 +129,6 @@ def find_best_entity_assignment_per_doc(pred_result, golden_result):
     n = len(entids_in_label)
     cost_matrix = np.zeros((m, n), dtype=np.float32)
     for i in range(m):
-        ents_pred = get_ents_by_id(pred_result, entids_in_pred[i])
         triples_pred = get_triples_by_entid(pred_result, entids_in_pred[i])
         for j in range(n):
             triples_label = get_triples_by_entid(golden_result, entids_in_label[j])
@@ -128,8 +138,7 @@ def find_best_entity_assignment_per_doc(pred_result, golden_result):
             golden_triples = []
             for triple in triples_label:
                 golden_triples.append(get_triple_id(triple, ""))
-            triple_f1 = compute_F1(pred_triples, golden_triples)
-            final_f1 = triple_f1
+            final_f1 = compute_F1(pred_triples, golden_triples)
             cost_matrix[i, j] = final_f1
     row_ids, col_ids = linear_sum_assignment(-cost_matrix)
     pred2label = {}
@@ -173,6 +182,7 @@ def compute_result(all_preds, all_labels):
                 get_ent_id(ent, item["id"], True)
             )
     ent_f1 = compute_F1(all_pred_ents, all_label_ents)
+    # Triple F1 
     all_pred_triples = []
     for item in all_preds:
         for triple in item["triples"]:
@@ -191,11 +201,6 @@ def compute_result(all_preds, all_labels):
 
 
 if __name__ == "__main__":
-    all_preds = filter_noisy_token_pred(json.load(open("submissions.json")))
-    all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels.json"))
+    all_preds = json.load(open("submissions.json"))
+    all_labels = get_golden_labels("data/test_with_labels.json")
     print(compute_result(all_preds, all_labels))
-
-
-
-
-
