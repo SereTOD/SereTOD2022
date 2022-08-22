@@ -1,5 +1,16 @@
 # Baseline for SereTOD Track2
 This repository contains the baseline code for SereTOD Track2.
+## Update 
+**2022.08.15** Update baseline results on **official dev set**. Participants need to put the data in `Test_data` directory and rename it to `dev_data.json`, then run
+```
+python preprocess.py --dir Test_data/ --file dev_data.json
+bash test_dev.sh $DEVICE $MODEL_PATH
+```
+The results of the baseline model on dev set are:
+   - P/R/F1 for user intent: 0.720/0.623/0.668
+   - P/R/F1 for system intent: 0.610/0.508/0.554
+   - BLEU-4 score: 4.12
+   - Success rate: 0.244
 ## Requirement
 After you create an environment with `python 3.6`, the following commands are recommended to install the required packages
 * pip install torch==1.5
@@ -43,14 +54,3 @@ The results of the baseline model are:
    - P/R/F1 for system intent: 0.614/0.534/0.571
    - BLEU-4 score: 4.17
    - Success rate: 0.315
-
-After the **official dev set and test set** of Track2 are released, you need to put the data in `Test_data` directory and rename it to `dev_data.json`, then run
-```
-python preprocess_test.py
-bash test_dev.sh $DEVICE $MODEL_PATH
-```
-The results of the baseline model on dev set are:
-   - P/R/F1 for user intent: 0.720/0.623/0.668
-   - P/R/F1 for system intent: 0.610/0.508/0.554
-   - BLEU-4 score: 4.12
-   - Success rate: 0.244
