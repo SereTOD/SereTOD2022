@@ -1,6 +1,7 @@
 # SereTOD Track1: Information Extraction from dialog transcripts
 This repository contains the task, evaluation, data and baseline codes for SereTOD Track1. 
 # Update 
+**2022.08.24** Update `post_process.py`: fix `数据业务` replace bugs. The lastest baseline results are: **F1 (entity) 32.85, F1 (Triple) 34.94**. \   
 **2022.08.22** Update evaluation script: 1. Use `offset` for evaluation of entities. 2. Use `mention` for evaluation of triples. 3. Add `turn_id` for more precise evaluation. 4. Delete golden labels per step to avoid influence of duplicate predictions. The lastest baseline results are: **F1 (entity) 32.86, F1 (Triple) 34.75**. \
 **2022.08.19** Update evaluation script: 1. Use `mention` instead of `offset` for evaluation 2. Add `post_process.py` to filter whitespace and `_` before evaluation. The lastest baseline results are: **F1 (entity) 38.16, F1 (Triple) 38.40**. 
 

@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 from scipy.optimize import linear_sum_assignment
 
+from post_process import filter_noisy_token_label, filter_noisy_token_pred
 
 def get_text_and_entities(item):
     utterances = []
@@ -201,6 +202,6 @@ def compute_result(all_preds, all_labels):
 
 
 if __name__ == "__main__":
-    all_preds = json.load(open("submissions.json"))
-    all_labels = get_golden_labels("data/test_with_labels.json")
+    all_preds = filter_noisy_token_pred(json.load(open("submissions.json")))
+    all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels.json"))
     print(compute_result(all_preds, all_labels))
