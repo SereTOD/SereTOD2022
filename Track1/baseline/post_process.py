@@ -44,7 +44,9 @@ def filter_noisy_token_pred(data):
 def filter_noisy_token_label(data):
     for item in data:
         for ent in item["entities"]:
-            for noisy_token in noisy_tokens: ent["name"] = ent["name"].replace(noisy_token, "")
+            value, offset = correct_offset(ent["name"], ent["position"])
+            ent["name"] = value 
+            ent["position"] = offset
             for spe_ent in specific_ents:
                 if spe_ent in ent["name"]:
                     ent["type"] = "数据业务"
