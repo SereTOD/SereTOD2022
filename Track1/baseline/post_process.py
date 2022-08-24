@@ -30,8 +30,10 @@ def filter_noisy_token_pred(data):
             value, offset = correct_offset(ent["name"], ent["position"])
             ent["name"] = value 
             ent["position"] = offset
-            if ent["name"] in specific_ents:
-                ent["type"] = "数据业务"
+            for spe_ent in specific_ents:
+                if spe_ent in ent["name"]:
+                    ent["type"] = "数据业务"
+                    break 
         for triple in item["triples"]:
             value, offset = correct_offset(triple["value"], triple["position"])
             triple["value"] = value
@@ -43,8 +45,10 @@ def filter_noisy_token_label(data):
     for item in data:
         for ent in item["entities"]:
             for noisy_token in noisy_tokens: ent["name"] = ent["name"].replace(noisy_token, "")
-            if ent["name"] in specific_ents:
-                ent["type"] = "数据业务"
+            for spe_ent in specific_ents:
+                if spe_ent in ent["name"]:
+                    ent["type"] = "数据业务"
+                    break
         for triple in item["triples"]:
             for noisy_token in noisy_tokens: triple["value"] = triple["value"].replace(noisy_token, "")
     return data 
