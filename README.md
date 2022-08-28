@@ -27,7 +27,8 @@ The task consists of two tracks:
 | September 10, 2022 | Evaluation results announced (extended) |
 | September 17, 2022 | Regular paper due (via [softconf](https://softconf.com/emnlp2022/seretod/)) (extended) |
 | October 2, 2022 | ARR commitment due (via [OpenReview](https://openreview.net/group?id=EMNLP/2022/Workshop/SereTOD_Commitments)) |
-| October 9, 2022 | Notification of paper acceptance |
+| October 7, 2022 | Submission of EMNLP manuscripts with reviews (via [softconf](https://softconf.com/emnlp2022/seretod/)) |
+| October 10, 2022 | Notification of paper acceptance |
 | October 16, 2022 | Camera-ready papers due |
 | December 7, 2022 | EMNLP 2022 Workshop Date |
 
