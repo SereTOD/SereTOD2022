@@ -19,10 +19,10 @@ The task consists of two tracks:
 # Important Dates (AOE)
 | Date  | Item  |
 | ---: | :--- |
-| ~~July 1, 2022~~ | ~~Registration deadline for challenge~~ |
-| ~~July 1, 2022~~ | ~~Training data release~~ |
-| ~~July 15, 2022~~ | ~~ACL Rolling Review paper due (submit via [ARR](https://aclrollingreview.org/))~~ |
-| ~~August 14, 2022~~ | ~~Evaluation data release~~ |
+| July 1, 2022 | Registration deadline for challenge |
+| July 1, 2022 | Training data release |
+| July 15, 2022 | ACL Rolling Review paper due (submit via [ARR](https://aclrollingreview.org/)) |
+| August 14, 2022 | Evaluation data release |
 | August 31, 2022 | Entry submission deadline (extended) |
 | September 10, 2022 | Evaluation results announced (extended) |
 | September 17, 2022 | Regular paper due (via [softconf](https://softconf.com/emnlp2022/seretod/)) (extended) |
