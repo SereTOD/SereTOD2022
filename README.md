@@ -57,6 +57,10 @@ If you publish experimental results with the MobileCS dataset or use the baselin
 * For teams that participate in Track 2, they can use the baseline system provided by the organizers or use the system developed by themselves for Track 1. The ranking is based on the performance for Track 2.
 * Participants are allowed to use any external datasets, resources or pre-trained models which are publicly available.
 * Participants are NOT allowed to do any manual examination or modification of the test data.
+* In publishing the results, all teams will be identified as team IDs (e.g. team1, team2, etc). The organizers will verbally indicate the identities of all teams at the Workshop for communicating results.
+* For each track, three teams with top performances will be recognized with prizes. The prizes will be awarded at the Workshop.
+* Participants may identify their own team label (e.g. team5) and report their own result, in publications or presentations, if they desire.
+
 
 # Submission Guidelines
 * Each team needs to submit a package via email to seretod2022 (at) gmail (dot) com before the Entry Submission Deadline (August 21, 2022). The submission package should contain the system executable with the model. All dependencies must be contained in the submission package.
