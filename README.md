@@ -57,21 +57,19 @@ If you publish experimental results with the MobileCS dataset or use the baselin
 * For teams that participate in Track 2, they can use the baseline system provided by the organizers or use the system developed by themselves for Track 1. The ranking is based on the performance for Track 2.
 * Participants are allowed to use any external datasets, resources or pre-trained models which are publicly available.
 * Participants are NOT allowed to do any manual examination or modification of the test data.
+    - Cross exploitation of the released test sets between Track1 and Track2 are not allowed. That is, the released test set for Track 1 should be used solely for the testing of Track 1, and the same for Track 2.
 * In publishing the results, all teams will be identified as team IDs (e.g. team1, team2, etc). The organizers will verbally indicate the identities of all teams at the Workshop for communicating results.
 * For each track, three teams with top performances will be recognized with prizes. The prizes will be awarded at the Workshop.
 * Participants may identify their own team label (e.g. team5) and report their own result, in publications or presentations, if they desire.
 
 
 # Submission Guidelines
-* Each team needs to submit a package via email to seretod2022 (at) gmail (dot) com before the Entry Submission Deadline (August 21, 2022). The submission package should contain the system executable with the model. All dependencies must be contained in the submission package.
-
-* The submission should provide clear documentation for running the system. Direct running the executable without any arguments should output the result file with the required format. See [Track1 README](Track1/README.md#SubmissionFormat) and [Track2 README](Track2/README.md#SubmissionFormat) for the formats.
-
+* Each team needs to submit a package via email to seretod2022 (at) gmail (dot) com before the Entry Submission Deadline. The submission package should contain the system executable with the model. All dependencies must be contained in the submission package.
+    - For track 2, system running is not only for corpus-based automatic evaluation, but also for human evaluation.That is, the submission system for Track 2 should provide an interface, through which real users interact with those systems.
+* The submission should provide **clear documentation** for running the system. Direct running the executable without any arguments should output the result file with the required format. See [Track1 README](Track1/README.md#SubmissionFormat) and [Track2 README](Track2/README.md#SubmissionFormat) for the formats.
 * The submitted system could be, but not limited to be, encapsulated in a Docker image, as long as the above requirements are satisfied.
-
-* The submission should provide a system description paper. Teams are also encouraged to submit papers to EMNLP2022 SereTOD Workshop. See important dates and instructions in [Call for Papers](http://seretod.org/Call%20for%20Papers.html).
-
-* Before the Entry Submission Deadline (August 21, 2022), each team can submit for multiple times for each track. The last entry from each team will be used for the evaluation.
+* The submission should provide a **System Description Paper**. Teams are also encouraged to submit papers to EMNLP2022 SereTOD Workshop. See important dates and instructions in [Call for Papers](http://seretod.org/Call%20for%20Papers.html).
+* Before the Entry Submission Deadline, each team can submit for multiple times for each track. The last entry from each team will be used for the evaluation.
 
 # Contact
 For any questions, please feel free to contact: seretod2022 (at) gmail (dot) com
