@@ -163,15 +163,21 @@ def compute_result(all_preds, all_labels):
     for item in all_labels:
         docid2labels[item["id"]] = item
     # loop for entity assignment
+    # pdb.set_trace()
     final_preds = []
+    missing = 0
     for preds in tqdm(all_preds, desc="Linear assignment"):
         if preds["id"] not in docid2labels:
             print("Warning! The id not in label file.", preds["id"])
+            missing += 1
+            continue 
         labels = docid2labels[preds["id"]]
         final_preds.append(find_best_entity_assignment_per_doc(preds, labels))
+    print(missing)
     # evaluation
     all_pred_ents = []
-    for item in all_preds:
+    # pdb.set_trace()
+    for item in final_preds:
         for ent in item["entities"]:
             all_pred_ents.append(
                 get_ent_id(ent, item["id"], True)
@@ -185,7 +191,7 @@ def compute_result(all_preds, all_labels):
     ent_f1 = compute_F1(all_pred_ents, all_label_ents)
     # Triple F1 
     all_pred_triples = []
-    for item in all_preds:
+    for item in final_preds:
         for triple in item["triples"]:
             if "assign-ent-id" in triple:
                 all_pred_triples.append(
@@ -203,5 +209,5 @@ def compute_result(all_preds, all_labels):
 
 if __name__ == "__main__":
     all_preds = filter_noisy_token_pred(json.load(open("submissions.json")))
-    all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels.json"))
+    all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels_2.json"))
     print(compute_result(all_preds, all_labels))
