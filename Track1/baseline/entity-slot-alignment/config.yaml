@@ -2,23 +2,23 @@ seed: 42
 do_train: True
 do_predict: True
 
-output_dir: output/Slot-Filling
+paradigm: token_classification
+output_dir: output/Entity-Slot-Alignment
 
-# golden_trigger: False 
+save_path: ../data/roberta
 train_file: ../data/train.json
 validation_file: ../data/dev.json
-test_file: ../data/test_with_triples.json
+test_file: ../data/roberta/test_with_triples.json
 language: Chinese 
 test_exists_labels: False
 
 truncate_in_batch: True 
 return_token_type_ids: False 
-truncate_seq2seq_output: True
 
 model_type: roberta
-model_name_or_path: hfl/chinese-roberta-wwm-ext
-hidden_size: 768
-aggregation: none 
+model_name_or_path: hfl/chinese-roberta-wwm-ext-large
+hidden_size: 1024
+aggregation: cls 
 
 num_train_epochs: 5
 max_seq_length: 512

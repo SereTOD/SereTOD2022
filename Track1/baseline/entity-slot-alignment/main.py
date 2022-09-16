@@ -90,7 +90,7 @@ earlystoppingCallBack = EarlyStoppingCallback(early_stopping_patience=training_a
                                               early_stopping_threshold=training_args.early_stopping_threshold)
 
 # model 
-backbone, tokenizer, config = get_backbone(model_args.model_type, model_args.model_name_or_path, \
+backbone, tokenizer, config = get_backbone(model_args, model_args.model_type, model_args.model_name_or_path, \
                                            model_args.model_name_or_path, insert_markers, new_tokens=insert_markers)
 model = get_model(model_args, backbone)
 model.cuda()
@@ -129,4 +129,6 @@ if training_args.do_predict:
         print(metrics)
     else:
         preds = logits[:, 1]
-        dump_result(data_args, preds, data_args.test_file)
+        if not os.path.exists(data_args.save_path):
+            os.mkdir(data_args.save_path)
+        dump_result(data_args, preds, data_args.test_file, data_args)

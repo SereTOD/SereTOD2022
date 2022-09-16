@@ -79,7 +79,7 @@ class Document:
         self.sorted_entity_spans = [(entity["utterance_id"], entity["position"], entity["type"]) for entity in entities]
 
 
-def dump_result(input_path, preds):
+def dump_result(input_path, preds, config):
     # load examples 
     examples = []
     with open(os.path.join(input_path))as f:
@@ -104,7 +104,7 @@ def dump_result(input_path, preds):
             "entities": entities
         })
     final_data = convert_format(data, final_result)
-    json.dump(final_data, open(os.path.join("../data", "test_with_entity_coref.json"), "w"), indent=4, ensure_ascii=False)
+    json.dump(final_data, open(os.path.join(config.save_path, "test_with_entity_coref.json"), "w"), indent=4, ensure_ascii=False)
 
 
 def convert_format(original_data, result):

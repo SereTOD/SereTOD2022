@@ -99,4 +99,4 @@ def dump_result_sl(preds, labels, is_overflow, config):
             turn["info"]["ents"] = ents 
             idx += 1
     assert idx == len(preds)
-    json.dump(data, open("../data/test_with_entity_mentions.json", "w"), indent=4, ensure_ascii=False)
+    json.dump(data, open(os.path.join(config.save_path, "test_with_entity_mentions.json"), "w"), indent=4, ensure_ascii=False)

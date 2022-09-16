@@ -8,7 +8,7 @@ from tqdm import tqdm
 from data_processor import SCProcessor
 
 
-def dump_result(data_args, preds, input_file):
+def dump_result(data_args, preds, input_file, config):
     data = json.load(open(input_file))
     idx = 0
     all_data = []
@@ -36,5 +36,5 @@ def dump_result(data_args, preds, input_file):
             triple["ent-id"] = ent_align_scores[0]["ent-id"]
         all_data.append(new_item)
     assert idx == len(preds)
-    json.dump(all_data, open("../data/test_final_results.json", "w"), indent=4, ensure_ascii=False)
+    json.dump(all_data, open(os.path.join(config.save_path, "test_final_results.json"), "w"), indent=4, ensure_ascii=False)
                 

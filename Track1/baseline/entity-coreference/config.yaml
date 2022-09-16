@@ -1,21 +1,23 @@
 seed: 42
 do_train: True
 do_predict: True 
-do_ED_infer: False 
+
+save_path: ../data/roberta
 
 output_dir: output/Event-Coreference
 train_file: ../data/train.json
 validation_file: ../data/dev.json
-test_file: ../data/test_with_entity_mentions.json
+test_file: ../data/roberta/test_with_entity_mentions.json
+language: Chinese
 test_exists_labels: False 
 
-return_token_type_ids: True 
-truncate_seq2seq_output: False
+truncate_in_batch: True
+return_token_type_ids: False
 
 model_type: roberta
-model_name_or_path: hfl/chinese-roberta-wwm-ext
-hidden_size: 768
-aggregation: none 
+model_name_or_path: hfl/chinese-roberta-wwm-ext-large
+hidden_size: 1024
+aggregation: cls 
 
 num_train_epochs: 5
 max_seq_length: 128

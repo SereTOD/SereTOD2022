@@ -4,25 +4,24 @@ do_predict: True
 
 task_name: SF
 paradigm: sequence_labeling
-output_dir: output/Slot-Filling
+save_path: ../data/roberta
 
-# golden_trigger: False 
+output_dir: output/Slot-Filling
 type2id_path: ../data/type2id.json
 role2id_path: ../data/role2id.json 
 train_file: ../data/train.json
 validation_file: ../data/dev.json
-test_file: ../data/test_with_entity_coref.json
+test_file: ../data/roberta/test_with_entity_coref.json
 language: Chinese 
 test_exists_labels: False
 
 truncate_in_batch: True 
 return_token_type_ids: False 
-truncate_seq2seq_output: False
 
 model_type: roberta
-model_name_or_path: hfl/chinese-roberta-wwm-ext
-hidden_size: 768
-aggregation: none 
+model_name_or_path: hfl/chinese-roberta-wwm-ext-large
+hidden_size: 1024
+aggregation: cls
 
 num_train_epochs: 5
 max_seq_length: 180

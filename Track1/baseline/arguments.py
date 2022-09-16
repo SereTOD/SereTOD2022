@@ -1,26 +1,26 @@
-# Copyright 2022 SereTOD Challenge Organizers
-# Authors: Hao Peng (peng-h21@mails.tsinghua.edu.cn)
-# Apache 2.0
-from curses import meta
-import json 
+import os
 import yaml 
 import dataclasses
 
 from pathlib import Path 
 from dataclasses import dataclass, field
-from typing import Optional, Tuple
-from argparse import Namespace
+from typing import Optional
 from transformers import TrainingArguments, HfArgumentParser
+
 
 
 @dataclass
 class DataArguments:
+    """Arguments pertaining to what data we are going to input our model for training and eval.
+
+    Arguments pertaining to what data we are going to input our model for training and eval, such as the config file
+    path, dataset name, and the path of the training, validation, and testing file. By using `HfArgumentParser`, we can
+    turn this class into argparse arguments to be able to specify them on the command line.
     """
-    Arguments pertaining to what data we are going to input our model for training and eval.
-    Using `HfArgumentParser` we can turn this class
-    into argparse arguments to be able to specify them on
-    the command line.
-    """
+    save_path: str = field(
+        default="data",
+        metadata={"help": "save path"}
+    )
     config_file: str = field(
         default=None, 
         metadata={"help": "Config file path."}
@@ -29,29 +29,32 @@ class DataArguments:
         default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
     train_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the training data."}
+        default=None, metadata={"help": "A jsonl file containing the training data."}
     )
     validation_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the validation data."}
+        default=None, metadata={"help": "A jsonl file containing the validation data."}
     )
     test_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the test data."}
+        default=None, metadata={"help": "A jsonl file containing the test data."}
     )
     train_pred_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the training data."}
+        default=None, metadata={
+            "help": "A jsonl file containing the predicted event triggers for training data. (Only meaningful for EAE)"}
     )
     validation_pred_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the validation data."}
+        default=None, metadata={
+            "help": "A jsonl file containing the predicted event triggers for valid data. (Only meaningful for EAE)"}
     )
     test_pred_file: Optional[str] = field(
-        default=None, metadata={"help": "A csv or a json file containing the test data."}
+        default=None, metadata={
+            "help": "A jsonl file containing the predicted event triggers test data. (Only meaningful for EAE)"}
     )
-    ontology_file: Optional[str] = field(
-        default=None, metadata={"help": "Path to ontology file."}
+    template_file: Optional[str] = field(
+        default=None, metadata={"help": "Path to template file. (Only meaningful for mrc paradigm)"}
     )
     golden_trigger: bool = field(
         default=False,
-        metadata={"help":" Whether or not golden trigger"}
+        metadata={"help":" Whether or not to use golden trigger for EAE"}
     )
     test_exists_labels: bool = field(
         default=False,
@@ -81,7 +84,7 @@ class DataArguments:
     prompt_file: str = field(
         default=None, 
         metadata={
-            "help": "path to prompt file."
+            "help": "Path to prompt file."
         }
     )
     return_token_type_ids: bool = field(
@@ -97,21 +100,47 @@ class DataArguments:
         }
     )
     truncate_in_batch: bool = field(
-        default=True, 
+        default=False,
         metadata={
             "help": "whether truncate in batch. False only if mrc."
         }
     )
     language: str = field(
         default="English",
-        metadata={"help": "data language."}
+        metadata={"help": "Data language."}
+    )
+    split_infer: bool = field(
+        default=True,
+        metadata={
+            "help": "Whether split large dataset for inference. False only if truncate_in_batch"
+        }
+    )
+    split_infer_size: int = field(
+        default=500,
+        metadata={
+            "help": "Sub-batch size for split inference"
+        }
+    )
+    eae_eval_mode: str = field(
+        default="default",
+        metadata={
+            "help": "Evaluation mode for EAE, one of [default, loose, strict]"
+        }
+    )
+    mrc_template_id: int = field(
+        default=0,
+        metadata={
+            "help": "Mrc template, 0: role_name, 1: role_name in [trigger], 2: guidelines, 3: guidelines in [trigger]"
+        }
     )
 
 
 @dataclass
 class ModelArguments:
-    """
-    Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
+    """Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
+
+    Arguments pertaining to which model/config/tokenizer we are going to fine-tune from, such as the model type, model
+    path, checkpoint path, hidden size, and aggregation method.
     """
     model_type: str = field(
         metadata={"help": "Model type."}
@@ -119,17 +148,31 @@ class ModelArguments:
     model_name_or_path: str = field(
         metadata={"help": "Path to pretrained model or model identifier from huggingface.co/models"}
     )
+    checkpoint_path: str = field(
+        default=None,
+        metadata={"help": "Path to pretrained model or model identifier"}
+    )
     hidden_size: int = field(
         default=768,
-        metadata={"help": "hidden size"}
+        metadata={"help": "Hidden size"}
+    )
+    head_type: str = field(
+        default="linear",
+        metadata={"help": "Head type"}
+    )
+    head_scale: int = field(
+        default=1,
+        metadata={"help": "Head scale for classification head"}
     )
     aggregation: str = field(
         default="cls",
-        metadata={"help": "aggregation method"}
+        metadata={"help": "Aggregation method"}
     )
     paradigm: str = field(
         default="token_classification",
-        metadata={"help": "paradigm"}
+        metadata={
+            "help": "Paradigm of the method. Selected in ['token_classification', 'sequence_labeling', 'seq2seq', and 'mrc']."
+        }
     )
     config_name: Optional[str] = field(
         default=None, metadata={"help": "Pretrained config name or path if not the same as model_name"}
@@ -156,17 +199,58 @@ class ModelArguments:
             "with private models)."
         },
     )
+    '''
+    For tranditional model (CNN, LSTM).
+    '''
+    word_embedding_dim: int = field(
+        default=100,
+        metadata={
+            "help": "Word embedding dimension for tranditional word vector."
+        }
+    )
+    position_embedding_dim: int = field(
+        default=20,
+        metadata={
+            "help": "Position embedding dimension for tranditional word vector."
+        }
+    )
+    num_position_embeddings: int = field(
+        default=512,
+        metadata={
+            "help": "Number of position embeddings."
+        }
+    )
+    hidden_dropout_prob: float = field(
+        default=0.5,
+        metadata={
+            "help": "Dropout rate"
+        }
+    )
+    vocab_file: float = field(
+        default=None,
+        metadata={
+            "help": "Path to vocab file."
+        }
+    )
+
 
 
 @dataclass 
 class TrainingArguments(TrainingArguments):
+    """Arguments pertaining to the configurations in the training process.
+
+    Arguments pertaining to the configurations in the training process, such as the random seed, task name,
+    early stopping patience and threshold, and max length.
+    """
     seed: int = field(
         default=42,
         metadata={"help": "seed"}
     )
     task_name: str = field(
         default="ED",
-        metadata={"help": "Task type."}
+        metadata={
+            "help": "Task type. Selected in ['ED', 'EAE']"
+        }
     )
     do_ED_infer: bool = field(
         default=False, 
@@ -204,14 +288,22 @@ class TrainingArguments(TrainingArguments):
             "help": "The maximum output length for encoder-decoder architecture (BART, T5)."
         }
     )
+    pipeline: bool = field(
+        default=False,
+        metadata={
+            "help": "Model parallelism."
+        }
+    )
 
 
 class ArgumentParser(HfArgumentParser):
+    """Alternative helper method that does not use `argparse` at all.
+
+    Alternative helper method that does not use `argparse` at all, parsing the pre-defined yaml file with arguments
+    instead loading a json file and populating the dataclass types.
+    """
     def parse_yaml_file(self, yaml_file: str):
-        """
-        Alternative helper method that does not use `argparse` at all, instead loading a json file and populating the
-        dataclass types.
-        """
+        """Parses the pre-defined yaml file with arguments."""
         data = yaml.safe_load(Path(yaml_file).read_text())
         outputs = []
         for dtype in self.dataclass_types:

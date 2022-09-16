@@ -208,6 +208,7 @@ def compute_result(all_preds, all_labels):
 
 
 if __name__ == "__main__":
-    all_preds = filter_noisy_token_pred(json.load(open("submissions.json")))
+    PATH = "data/lstm"
+    all_preds = filter_noisy_token_pred(json.load(open(os.path.join(PATH, "submissions.json"))))
     all_labels = filter_noisy_token_label(get_golden_labels("data/test_with_labels_2.json"))
     print(compute_result(all_preds, all_labels))

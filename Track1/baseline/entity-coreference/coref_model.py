@@ -28,7 +28,7 @@ class EntityEncoder(nn.Module):
         event_spans = inputs["entity_spans"]
         doc_splits = inputs["splits"]
         event_embed = []
-        output = self.model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True).last_hidden_state
+        output = self.model(input_ids=input_ids, attention_mask=attention_mask).last_hidden_state
         # print(output.size())
         for i in range(0, len(doc_splits)-1):
             embed = []
@@ -104,7 +104,7 @@ class ModelForEntityCoreference(nn.Module):
     def __init__(self, config, backbone):
         super(ModelForEntityCoreference, self).__init__()
         self.encoder = EntityEncoder(config, backbone)
-        self.scorer = PairScorer(embed_dim=768)
+        self.scorer = PairScorer(embed_dim=config.hidden_size*config.head_scale)
     
     def compute_loss(self, probs, data):
         eps = 1e-8
@@ -124,7 +124,7 @@ class ModelForEntityCoreference(nn.Module):
             prob_sum = torch.sum(torch.clamp(torch.mul(prob, filled_labels), eps, 1-eps), dim=1)
             # print(prob_sum)
             loss = loss + torch.sum(torch.log(prob_sum)) * -1
-        return loss 
+        return loss
     
     def forward(self, **inputs):
         output = self.encoder(inputs)

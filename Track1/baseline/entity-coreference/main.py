@@ -80,7 +80,7 @@ earlystoppingCallBack = EarlyStoppingCallback(early_stopping_patience=training_a
                                               early_stopping_threshold=training_args.early_stopping_threshold)
 
 # model 
-backbone, tokenizer, config = get_backbone(model_args.model_type, model_args.model_name_or_path,
+backbone, tokenizer, config = get_backbone(model_args, model_args.model_type, model_args.model_name_or_path,
                                            model_args.model_name_or_path, data_args.markers,
                                            new_tokens=data_args.markers)
 model = get_model(model_args, backbone)
@@ -167,5 +167,7 @@ if training_args.do_predict:
         print(result)
     else:
         result, dump_results = evaluate(model, test_dataloader, True)
-        dump_result(data_args.test_file, dump_results)
+        if not os.path.exists(data_args.save_path):
+            os.mkdir(data_args.save_path)
+        dump_result(data_args.test_file, dump_results, data_args)
 

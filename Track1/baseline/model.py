@@ -4,6 +4,7 @@
 import pdb
 import torch 
 import torch.nn as nn 
+import torch.nn.functional as F
 
 from typing import Tuple, Dict, Optional
 from crf import CRF
@@ -30,11 +31,29 @@ def select_cls(hidden_states: torch.Tensor) -> torch.Tensor:
     return hidden_states[:, 0, :]
 
 
+def max_pooling(hidden_states: torch.Tensor) -> torch.Tensor:
+    """Applies the max-pooling operation over the sentence representation.
+
+    Applies the max-pooling operation over the representation of the entire input sequence to capture the most useful
+    information. The operation processes on the hidden states, which are output by the backbone model.
+
+    Args:
+        hidden_states (`torch.Tensor`):
+            A tensor representing the hidden states output by the backbone model.
+
+    Returns:
+        pooled_states (`torch.Tensor`):
+            A tensor represents the max-pooled hidden states, containing the most useful information of the sequence.
+    """
+    batch_size, seq_length, hidden_size = hidden_states.size()
+    pooled_states = F.max_pool1d(input=hidden_states.transpose(1, 2), kernel_size=seq_length).squeeze(-1)
+    return pooled_states
+
+
 class ClassificationHead(nn.Module):
     def __init__(self, config):
         super(ClassificationHead, self).__init__()
-        scale = 2 if config.aggregation=="dm" else 1
-        self.classifier = nn.Linear(config.hidden_size*scale, config.num_labels)
+        self.classifier = nn.Linear(config.hidden_size*config.head_scale, config.num_labels)
 
     def forward(self, hidden_state: torch.Tensor) -> torch.Tensor:
         """Classify hidden_state to label distribution.
@@ -56,7 +75,12 @@ class ModelForTokenClassification(nn.Module):
         super(ModelForTokenClassification, self).__init__()
         self.backbone = backbone 
         # self.aggregation = DynamicPooling(config)
-        self.aggregation = select_cls
+        if config.aggregation == "cls":
+            self.aggregation = select_cls
+        elif config.aggregation == "max_pooling":
+            self.aggregation = max_pooling
+        else:
+            self.aggregation = select_cls
         self.cls_head = ClassificationHead(config)
 
     def forward(

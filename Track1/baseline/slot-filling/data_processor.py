@@ -3,6 +3,8 @@
 # Apache 2.0
 import os 
 import pdb 
+import sys 
+sys.path.append("..")
 import json
 from re import L
 from string import whitespace
@@ -16,6 +18,7 @@ from collections import defaultdict
 from typing import List
 from tqdm import tqdm 
 from torch.utils.data import Dataset
+from input_utils import get_word_ids
 
 
 logger = logging.getLogger(__name__)
@@ -174,7 +177,7 @@ class SLProcessor(DataProcessor):
                 # text in turn
                 text_in_turn_list = []
                 for key in list(turn.keys())[:2]:
-                    text_in_turn_list.append(turn[key])
+                    text_in_turn_list.append(turn[key].replace(" ", "_"))
                 text_in_turn = list("".join(text_in_turn_list))
                 labels = ["O"] * len(text_in_turn)
                 if self.is_testing and not self.config.test_exists_labels:
@@ -258,18 +261,15 @@ class SLProcessor(DataProcessor):
             outputs, is_overflow = self._truncate(outputs, self.config.max_seq_length)
             self.is_overflow.append(is_overflow)
 
-            if labels is not None:
-                word_ids_of_each_token = outputs.word_ids()[: self.config.max_seq_length]
-                final_labels = self.get_final_labels(labels, word_ids_of_each_token, label_all_tokens=False)
-            else:
-                final_labels = None 
+            word_ids_of_each_token = get_word_ids(self.tokenizer, outputs, text)[: self.config.max_seq_length]
+            final_labels = self.get_final_labels(labels, word_ids_of_each_token, label_all_tokens=False)
 
             features = InputFeatures(
                 example_id=example.example_id,
                 input_ids=outputs["input_ids"],
                 attention_mask=outputs["attention_mask"],
                 token_type_ids=outputs["token_type_ids"],
-                labels=final_labels
+                labels=final_labels,
             )
             self.input_features.append(features)
 

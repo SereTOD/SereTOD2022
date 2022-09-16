@@ -104,7 +104,7 @@ earlystoppingCallBack = EarlyStoppingCallback(early_stopping_patience=training_a
                                               early_stopping_threshold=training_args.early_stopping_threshold)
 
 # model 
-backbone, tokenizer, config = get_backbone(model_args.model_type, model_args.model_name_or_path, \
+backbone, tokenizer, config = get_backbone(model_args, model_args.model_type, model_args.model_name_or_path, \
                                            model_args.model_name_or_path, insert_markers, new_tokens=insert_markers)
 model = get_model(model_args, backbone)
 model.cuda()
@@ -139,4 +139,6 @@ if training_args.do_predict:
     if data_args.test_exists_labels:
         print(metrics)
     else:
+        if not os.path.exists(data_args.save_path):
+            os.mkdir(data_args.save_path)
         dump_result_sl(preds, labels, test_dataset.is_overflow, data_args)

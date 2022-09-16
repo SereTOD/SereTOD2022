@@ -5,6 +5,8 @@ import os
 import json 
 
 
+PATH = "data/lstm"
+
 def get_submissions(result_file):
     results = json.load(open(result_file))
     final_submissions = []
@@ -21,8 +23,8 @@ def get_submissions(result_file):
             triple["turn_id"] = triple["utterance_id"] // 2
             triple.pop("utterance_id", None)
         final_submissions.append(new_item)
-    json.dump(final_submissions, open("submissions.json", "w"), indent=4, ensure_ascii=False)
+    json.dump(final_submissions, open(os.path.join(PATH, "submissions.json"), "w"), indent=4, ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    get_submissions("data/test_final_results.json")
+    get_submissions(os.path.join(PATH, "test_final_results.json"))
