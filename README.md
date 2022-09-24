@@ -40,13 +40,11 @@ The task consists of two tracks:
 
 If you publish experimental results with the MobileCS dataset or use the baseline models, please cite [this article](http://arxiv.org/abs/2207.02657):
 ```
-@misc{ou2022achallenge,
+@article{ou2022achallenge,
       title={A Challenge on Semi-Supervised and Reinforced Task-Oriented Dialog Systems}, 
       author={Zhijian Ou and Junlan Feng and Juanzi Li and Yakun Li and Hong Liu and Hao Peng and Yi Huang and Jiangjiang Zhao},
-      year={2022},
-      eprint={2207.02657},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+  journal={arXiv preprint arXiv:2207.02657},
+  year={2022}
 }
 ```
 
