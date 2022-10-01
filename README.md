@@ -38,7 +38,7 @@ The task consists of two tracks:
 * [Track 1 Details](Track1/) (including baseline and evaluation code)
 * [Track 2 Details](Track2/) (including baseline and evaluation code) 
 
-If you publish experimental results with the MobileCS dataset or use the baseline models, please cite [this article](http://arxiv.org/abs/2207.02657):
+If you publish experimental results with the MobileCS dataset, please cite [this challenge description paper](http://arxiv.org/abs/2207.02657):
 ```
 @article{ou2022achallenge,
       title={A Challenge on Semi-Supervised and Reinforced Task-Oriented Dialog Systems}, 
@@ -47,7 +47,15 @@ If you publish experimental results with the MobileCS dataset or use the baselin
   year={2022}
 }
 ```
-
+ For your reference to the baseline models, please cite [this baseline study paper](https://arxiv.org/abs/2209.13464):
+```
+@article{Liu2022InformationEA,
+  title={Information Extraction and Human-Robot Dialogue towards Real-life Tasks: A Baseline Study with the MobileCS Dataset},
+  author={Hong Liu and Hao Peng and Zhijian Ou and Juan-Zi Li and Yi Huang and Junlan Feng},
+  journal={arXiv preprint arXiv:2209.13464},
+  year={2022}
+}
+```
 # Rules
 * The challenge website is http://seretod.org/Challenge.html . Teams should submit the registration form to seretod2022 (at) gmail (dot) com, which will be reviewed by the organizers. 
 * Teams are required to sign an Agreement for Challenge Participation and Data Usage. Data will be provided to approved teams.
